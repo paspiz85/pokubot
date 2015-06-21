@@ -1,7 +1,7 @@
-pokubot/.classpath
-pokubot/.project
-pokubot/.settings
-pokubot/target
-pokubot/lib/jnativehook-2.0.0-RC5
-pokubot/pokulog.txt
-pokubot/pokulog.txt.lck
+.classpath
+.project
+.settings
+target
+lib/jnativehook-2.0.0-RC5
+pokulog.txt
+pokulog.txt.lck
