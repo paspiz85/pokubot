@@ -24,6 +24,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 
 import org.apache.maven.artifact.versioning.DefaultArtifactVersion;
@@ -47,6 +48,14 @@ public class MainWindowController {
 	private TextField			maxThField;
 	@FXML
 	private CheckBox			isMatchAllConditionsCheckBox;
+	@FXML
+	private AnchorPane			controlPane;
+	@FXML
+	private AnchorPane			setupPane;
+	@FXML
+	private Button				cancelButton;
+	@FXML
+	private Button				setupButton;
 	@FXML
 	private Button				startButton;
 	@FXML
@@ -271,6 +280,18 @@ public class MainWindowController {
 			troops
 			);
 	}
+
+	@FXML
+	public void handleCancelButtonAction() {
+            setupPane.setVisible(false);
+            controlPane.setVisible(true);
+        }
+
+	@FXML
+	public void handleSetupButtonAction() {
+            controlPane.setVisible(false);
+            setupPane.setVisible(true);
+        }
 
 	@FXML
 	public void handleStartButtonAction() {
