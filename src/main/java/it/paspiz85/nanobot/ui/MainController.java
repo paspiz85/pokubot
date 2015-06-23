@@ -57,7 +57,9 @@ public class MainController implements ApplicationAwareController {
 	private ImageView heartImage;
 	@FXML
 	private CheckBox isMatchAllConditionsCheckBox;
+	
 	protected final Logger logger = Logger.getLogger(getClass().getName());
+	
 	@FXML
 	private TextField maxThField;
 	private final MainModel model = new MainModel();
@@ -71,12 +73,10 @@ public class MainController implements ApplicationAwareController {
 	private ComboBox<String> rax3ComboBox;
 	@FXML
 	private ComboBox<String> rax4ComboBox;
-	private Service<Void> runnerService = null;
 	@FXML
 	private Button setupButton;
 	@FXML
 	private AnchorPane setupPane;
-	private Service<Void> setupService = null;
 
 	@FXML
 	private Button startButton;
@@ -141,41 +141,29 @@ public class MainController implements ApplicationAwareController {
 	public void handleSetupButtonAction() {
 		controlPane.setVisible(false);
 		setupPane.setVisible(true);
-		if (!model.isSetupDone() && setupService.getState() == State.READY) {
-			setupService.start();
-		}
 	}
 
 	@FXML
 	public void handleStartButtonAction() {
-
-		if (model.isSetupDone() && runnerService.getState() == State.READY) {
-			runnerService.start();
-		}
+		model.start();
 	}
 
 	@FXML
 	public void handleStopButtonAction() {
-		if (setupService.isRunning()) {
-			setupService.cancel();
-			setupService.reset();
-		}
-		if (runnerService.isRunning()) {
-			runnerService.cancel();
-			runnerService.reset();
-		}
+		model.stop();
 	}
 
 	@FXML
 	void initialize() {
-		model.initialize();
 		LogHandler.initialize(textArea);
+		model.initialize();
 
 		initializeLinks();
 		initializeLabels();
 		initializeTextFields();
-		initializeSetupService();
-		initializeRunnerService();
+
+		initializeComboBox();
+		updateConfigGridPane();
 		if (model.checkForUpdate()) {
 			updateLabel.setVisible(true);
 		}
@@ -231,94 +219,6 @@ public class MainController implements ApplicationAwareController {
 				application.getHostServices().showDocument(
 						"https://github.com/norecha/pokubot#donate");
 				donateLink.setVisited(false);
-			}
-		});
-	}
-
-	private void initializeRunnerService() {
-		runnerService = new Service<Void>() {
-
-			@Override
-			protected Task<Void> createTask() {
-				return new Task<Void>() {
-
-					@Override
-					protected Void call() throws Exception {
-						model.botLauncherStart();
-						return null;
-					}
-				};
-			}
-		};
-
-		runnerService.setOnCancelled(new EventHandler<WorkerStateEvent>() {
-
-			@Override
-			public void handle(WorkerStateEvent event) {
-				logger.warning("runner is cancelled.");
-				runnerService.reset();
-			}
-		});
-
-		runnerService.setOnFailed(new EventHandler<WorkerStateEvent>() {
-
-			@Override
-			public void handle(WorkerStateEvent event) {
-				logger.log(Level.SEVERE, "runner is failed: "
-						+ runnerService.getException().getMessage(),
-						runnerService.getException());
-				runnerService.reset();
-			}
-		});
-	}
-
-	private void initializeSetupService() {
-		setupService = new Service<Void>() {
-
-			@Override
-			protected Task<Void> createTask() {
-				return new Task<Void>() {
-
-					@Override
-					protected Void call() throws Exception {
-						model.botLauncherTearDown();
-						model.botLauncherSetup();
-						return null;
-					}
-				};
-			}
-		};
-		setupService.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
-
-			@Override
-			public void handle(WorkerStateEvent event) {
-				initializeComboBox();
-				updateConfigGridPane();
-				model.setSetupDone(true);
-				logger.info("Setup is successful.");
-				logger.info("Click start to run.");
-			}
-		});
-
-		setupService.setOnFailed(new EventHandler<WorkerStateEvent>() {
-
-			@Override
-			public void handle(WorkerStateEvent event) {
-				model.setSetupDone(false);
-				logger.log(Level.SEVERE, "Setup is failed: "
-						+ setupService.getException().getMessage(),
-						setupService.getException());
-				setupService.reset();
-			}
-		});
-
-		setupService.setOnCancelled(new EventHandler<WorkerStateEvent>() {
-
-			@Override
-			public void handle(WorkerStateEvent event) {
-				model.setSetupDone(false);
-				logger.warning("Setup is cancelled.");
-				setupService.reset();
 			}
 		});
 	}

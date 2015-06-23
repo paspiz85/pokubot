@@ -1,5 +1,7 @@
 package aok.coc.launcher;
 
+import it.paspiz85.nanobot.util.Logging;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.logging.Handler;
@@ -18,18 +20,12 @@ public class BotLauncher {
 			.getName());
 
 	public static void main(String[] args) {
-		try (InputStream inputStream = BotLauncher.class
-				.getResourceAsStream("/logging.properties")) {
-			LogManager.getLogManager().readConfiguration(inputStream);
-		} catch (final IOException e) {
-			Logger.getAnonymousLogger().severe(
-					"Could not load default logging.properties file");
-			Logger.getAnonymousLogger().severe(e.getMessage());
-		}
+		Logging.initialize();
 
-		// run the bot
-		BotLauncher launcher = new BotLauncher();
 		try {
+			// run the bot
+			BotLauncher launcher = new BotLauncher();
+			launcher.initialize();
 			launcher.setup();
 			launcher.start();
 		} catch (InterruptedException e) {
@@ -42,10 +38,12 @@ public class BotLauncher {
 			logger.log(Level.SEVERE, e.getMessage(), e);
 			System.exit(3);
 		} finally {
-			for (Handler h : Logger.getLogger("").getHandlers()) {
-				h.close();
-			}
+			Logging.close();
 		}
+	}
+
+	public void initialize() {
+		Setup.initialize();
 	}
 
 	private boolean waitingForDcChecker = false;
@@ -134,6 +132,6 @@ public class BotLauncher {
 	}
 
 	public void tearDown() {
-		Setup.tearDown();
+		//TODO Setup.tearDown();
 	}
 }

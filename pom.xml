@@ -5,7 +5,7 @@
     <version>1.0.4-SNAPSHOT</version>
     
     <properties>
-        <mainClass>it.paspiz85.nanobot.ui.Application</mainClass>
+        <mainClass>it.paspiz85.nanobot.Start</mainClass>
     </properties>
 
     <scm>

@@ -1,5 +1,7 @@
 package aok.coc.launcher;
 
+import it.paspiz85.nanobot.win32.User32;
+
 import java.util.Arrays;
 import java.util.Locale;
 import java.util.logging.Logger;
@@ -13,7 +15,6 @@ import aok.coc.exception.BotConfigurationException;
 import aok.coc.util.ConfigUtils;
 import aok.coc.util.RobotUtils;
 import aok.coc.util.coords.Clickable;
-import aok.coc.util.w32.User32;
 
 import com.sun.jna.platform.win32.Advapi32Util;
 import com.sun.jna.platform.win32.WinDef.HWND;
@@ -36,10 +37,6 @@ public class Setup {
 
 	public static void setup() throws BotConfigurationException,
 			InterruptedException {
-		// set system locale to ROOT, Turkish clients will break because
-		// jnativehook dependency has Turkish I bug
-		Locale.setDefault(Locale.ROOT);
-
 		if (!RobotUtils.SYSTEM_OS.toLowerCase(Locale.ROOT).contains("windows")) {
 			throw new BotConfigurationException(
 					"Bot is only available for Windows OS.");
@@ -48,11 +45,6 @@ public class Setup {
 		// disable display off
 		// Kernel32.INSTANCE.SetThreadExecutionState(Kernel32.ES_SYSTEM_REQUIRED
 		// | Kernel32.ES_CONTINUOUS | Kernel32.ES_DISPLAY_REQUIRED);
-
-		// setup configUtils
-		logger.info("Setting up ConfigUtils...");
-		logger.info("Make sure in-game language is English.");
-		ConfigUtils.initialize();
 
 		// setup bs window handle
 		logger.info(String.format("Setting up %s window...", BS_WINDOW_NAME));
@@ -247,6 +239,17 @@ public class Setup {
 		if (ConfigUtils.isInitialized()) {
 			ConfigUtils.close();
 		}
+	}
+
+	public static void initialize() {
+		// set system locale to ROOT, Turkish clients will break because
+		// jnativehook dependency has Turkish I bug
+		Locale.setDefault(Locale.ROOT);
+
+		// setup configUtils
+		logger.info("Setting up ConfigUtils...");
+		logger.info("Make sure in-game language is English.");
+		ConfigUtils.initialize();
 	}
 
 }

@@ -1,4 +1,4 @@
-package aok.coc.attack;
+package it.paspiz85.nanobot.attack;
 
 import java.util.logging.Logger;
 

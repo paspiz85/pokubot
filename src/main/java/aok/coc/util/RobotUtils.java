@@ -1,5 +1,7 @@
 package aok.coc.util;
 
+import it.paspiz85.nanobot.win32.User32;
+
 import java.awt.AWTException;
 import java.awt.Color;
 import java.awt.Rectangle;
@@ -18,7 +20,6 @@ import javax.swing.JOptionPane;
 
 import aok.coc.util.coords.Area;
 import aok.coc.util.coords.Clickable;
-import aok.coc.util.w32.User32;
 
 import com.sun.jna.platform.win32.WinDef;
 import com.sun.jna.platform.win32.WinDef.HWND;

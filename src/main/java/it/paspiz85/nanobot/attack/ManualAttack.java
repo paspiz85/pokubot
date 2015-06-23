@@ -1,4 +1,4 @@
-package aok.coc.attack;
+package it.paspiz85.nanobot.attack;
 
 public class ManualAttack extends AbstractAttack {
 

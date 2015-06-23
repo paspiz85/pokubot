@@ -1,5 +1,7 @@
 package aok.coc.state;
 
+import it.paspiz85.nanobot.attack.ManualAttack;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.Arrays;
@@ -10,7 +12,6 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 
-import aok.coc.attack.ManualAttack;
 import aok.coc.exception.BotBadBaseException;
 import aok.coc.exception.BotException;
 import aok.coc.util.ConfigUtils;

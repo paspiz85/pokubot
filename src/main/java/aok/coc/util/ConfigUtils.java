@@ -1,5 +1,13 @@
 package aok.coc.util;
 
+import it.paspiz85.nanobot.attack.AbstractAttack;
+import it.paspiz85.nanobot.attack.Attack2Side;
+import it.paspiz85.nanobot.attack.Attack4Side;
+import it.paspiz85.nanobot.attack.Attack4SideParallel;
+import it.paspiz85.nanobot.attack.Attack4SideParallelFull2Wave;
+import it.paspiz85.nanobot.attack.Attack4SideParallelHalf2Wave;
+import it.paspiz85.nanobot.attack.ManualAttack;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -10,13 +18,6 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import aok.coc.attack.AbstractAttack;
-import aok.coc.attack.Attack2Side;
-import aok.coc.attack.Attack4Side;
-import aok.coc.attack.Attack4SideParallel;
-import aok.coc.attack.Attack4SideParallelFull2Wave;
-import aok.coc.attack.Attack4SideParallelHalf2Wave;
-import aok.coc.attack.ManualAttack;
 import aok.coc.launcher.Setup;
 import aok.coc.util.coords.Clickable;
 

@@ -1,12 +1,9 @@
 package it.paspiz85.nanobot.ui;
 
 import it.paspiz85.nanobot.Constants;
+import it.paspiz85.nanobot.util.Logging;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.logging.Handler;
-import java.util.logging.LogManager;
-import java.util.logging.Logger;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -17,20 +14,11 @@ public class Application extends javafx.application.Application implements
 		Constants {
 
 	public static void main(String[] args) {
-		try (InputStream inputStream = Application.class
-				.getResourceAsStream("/logging.properties")) {
-			LogManager.getLogManager().readConfiguration(inputStream);
-		} catch (final IOException e) {
-			Logger.getAnonymousLogger().severe(
-					"Could not load default logging.properties file");
-			Logger.getAnonymousLogger().severe(e.getMessage());
-		}
+		Logging.initialize();
 		try {
 			launch(args);
 		} finally {
-			for (Handler h : Logger.getLogger("").getHandlers()) {
-				h.close();
-			}
+			Logging.close();
 		}
 	}
 

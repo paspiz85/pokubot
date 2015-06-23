@@ -1,4 +1,4 @@
-package aok.coc.util.w32;
+package it.paspiz85.nanobot.win32;
 
 import com.sun.jna.Native;
 import com.sun.jna.win32.W32APIOptions;
