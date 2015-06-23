@@ -9,20 +9,23 @@ import java.util.logging.LogRecord;
 
 public class SingleLineFormatter extends Formatter {
 
-	Date						dat				= new Date();
-	private final static String	format			= "{0,date} {0,time}";
-	private MessageFormat		formatter;
-	private final Object		args[]			= new Object[1];
+	private final static String format = "{0,date} {0,time}";
+	private final Object args[] = new Object[1];
+	Date dat = new Date();
+	private MessageFormat formatter;
 
-	// Line separator string.  This is the value of the line.separator
+	// Line separator string. This is the value of the line.separator
 	// property at the moment that the SimpleFormatter was created.
-	//private String lineSeparator = (String) java.security.AccessController.doPrivileged(
-	//        new sun.security.action.GetPropertyAction("line.separator"));
-	private final String		lineSeparator	= "\n";
+	// private String lineSeparator = (String)
+	// java.security.AccessController.doPrivileged(
+	// new sun.security.action.GetPropertyAction("line.separator"));
+	private final String lineSeparator = "\n";
 
 	/**
 	 * Format the given LogRecord.
-	 * @param record the log record to be formatted.
+	 * 
+	 * @param record
+	 *            the log record to be formatted.
 	 * @return a formatted log record
 	 */
 	@Override
@@ -33,7 +36,7 @@ public class SingleLineFormatter extends Formatter {
 		dat.setTime(record.getMillis());
 		args[0] = dat;
 
-		// Date and time 
+		// Date and time
 		StringBuffer text = new StringBuffer();
 		if (formatter == null) {
 			formatter = new MessageFormat(format);
@@ -42,14 +45,14 @@ public class SingleLineFormatter extends Formatter {
 		sb.append(text);
 		sb.append(" ");
 
-		// Class name 
+		// Class name
 		if (record.getSourceClassName() != null) {
 			sb.append(record.getSourceClassName());
 		} else {
 			sb.append(record.getLoggerName());
 		}
 
-		// Method name 
+		// Method name
 		if (record.getSourceMethodName() != null) {
 			sb.append(" ");
 			sb.append(record.getSourceMethodName());
@@ -63,7 +66,7 @@ public class SingleLineFormatter extends Formatter {
 		sb.append(": ");
 
 		// Indent - the more serious, the more indented.
-		//sb.append( String.format("% ""s") );
+		// sb.append( String.format("% ""s") );
 		int iOffset = (1000 - record.getLevel().intValue()) / 100;
 		for (int i = 0; i < iOffset; i++) {
 			sb.append(" ");
@@ -72,8 +75,7 @@ public class SingleLineFormatter extends Formatter {
 		sb.append(message);
 		sb.append(lineSeparator);
 		if (record.getThrown() != null) {
-			try (
-					StringWriter sw = new StringWriter();
+			try (StringWriter sw = new StringWriter();
 					PrintWriter pw = new PrintWriter(sw);) {
 				record.getThrown().printStackTrace(pw);
 				pw.close();

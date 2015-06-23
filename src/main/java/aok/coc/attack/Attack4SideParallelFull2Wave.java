@@ -7,9 +7,10 @@ import aok.coc.util.coords.Clickable;
 
 public class Attack4SideParallelFull2Wave extends AbstractAttack {
 
-	private static final Logger						logger		= Logger.getLogger(Attack4SideParallelFull2Wave.class.getName());
+	private static final Attack4SideParallelFull2Wave instance = new Attack4SideParallelFull2Wave();
 
-	private static final Attack4SideParallelFull2Wave	instance	= new Attack4SideParallelFull2Wave();
+	private static final Logger logger = Logger
+			.getLogger(Attack4SideParallelFull2Wave.class.getName());
 
 	public static Attack4SideParallelFull2Wave instance() {
 		return instance;
@@ -28,39 +29,47 @@ public class Attack4SideParallelFull2Wave extends AbstractAttack {
 				unitCount = unitCount / 2 + wave * (unitCount % 2);
 
 				// select unit
-				RobotUtils.leftClick(Clickable.getButtonAttackUnit(unitIdx + 1), 100);
+				RobotUtils.leftClick(
+						Clickable.getButtonAttackUnit(unitIdx + 1), 100);
 
-				int[][] topToRightPoints = pointsBetweenFromToInclusive(TOP_X, TOP_Y, RIGHT_X, RIGHT_Y,
-					unitCount / 4 + unitCount % 4);
-				int[][] topToLeftPoints = pointsBetweenFromToInclusive(TOP_X, TOP_Y, LEFT_X, LEFT_Y,
-					unitCount / 4);
-				
-				int[][] rightToBottomPoints = pointsBetweenFromToInclusive(RIGHT_X, RIGHT_Y, BOTTOM_RIGHT_X, BOTTOM_RIGHT_Y,
-					unitCount / 4);
-				int[][] leftToBottomPoints = pointsBetweenFromToInclusive(LEFT_X, LEFT_Y, BOTTOM_LEFT_X, BOTTOM_LEFT_Y,
-					unitCount / 4);
+				int[][] topToRightPoints = pointsBetweenFromToInclusive(TOP_X,
+						TOP_Y, RIGHT_X, RIGHT_Y, unitCount / 4 + unitCount % 4);
+				int[][] topToLeftPoints = pointsBetweenFromToInclusive(TOP_X,
+						TOP_Y, LEFT_X, LEFT_Y, unitCount / 4);
+
+				int[][] rightToBottomPoints = pointsBetweenFromToInclusive(
+						RIGHT_X, RIGHT_Y, BOTTOM_RIGHT_X, BOTTOM_RIGHT_Y,
+						unitCount / 4);
+				int[][] leftToBottomPoints = pointsBetweenFromToInclusive(
+						LEFT_X, LEFT_Y, BOTTOM_LEFT_X, BOTTOM_LEFT_Y,
+						unitCount / 4);
 
 				// drop units
 				// top to mid from both sides in parallel
 				for (int i = 0; i < topToRightPoints.length; i++) {
 					int[] topRightPoint = topToRightPoints[i];
-					RobotUtils.leftClick(topRightPoint[0], topRightPoint[1], PAUSE_BETWEEN_UNIT_DROP);
+					RobotUtils.leftClick(topRightPoint[0], topRightPoint[1],
+							PAUSE_BETWEEN_UNIT_DROP);
 
 					if (i < topToLeftPoints.length) {
 						int[] topLeftPoint = topToLeftPoints[i];
-						RobotUtils.leftClick(topLeftPoint[0], topLeftPoint[1], PAUSE_BETWEEN_UNIT_DROP);
+						RobotUtils.leftClick(topLeftPoint[0], topLeftPoint[1],
+								PAUSE_BETWEEN_UNIT_DROP);
 					}
 				}
-				
+
 				// select unit
-				RobotUtils.leftClick(Clickable.getButtonAttackUnit(unitIdx + 1), 100);
+				RobotUtils.leftClick(
+						Clickable.getButtonAttackUnit(unitIdx + 1), 100);
 				// mid to bottom from both sides in parallel
 				for (int i = 0; i < rightToBottomPoints.length; i++) {
 					int[] rightToBottomPoint = rightToBottomPoints[i];
-					RobotUtils.leftClick(rightToBottomPoint[0], rightToBottomPoint[1], PAUSE_BETWEEN_UNIT_DROP);
+					RobotUtils.leftClick(rightToBottomPoint[0],
+							rightToBottomPoint[1], PAUSE_BETWEEN_UNIT_DROP);
 
 					int[] leftToBottomPoint = leftToBottomPoints[i];
-					RobotUtils.leftClick(leftToBottomPoint[0], leftToBottomPoint[1], PAUSE_BETWEEN_UNIT_DROP);
+					RobotUtils.leftClick(leftToBottomPoint[0],
+							leftToBottomPoint[1], PAUSE_BETWEEN_UNIT_DROP);
 				}
 			}
 		}

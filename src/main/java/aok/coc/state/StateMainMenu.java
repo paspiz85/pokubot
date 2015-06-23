@@ -9,15 +9,21 @@ import aok.coc.util.RobotUtils;
 import aok.coc.util.coords.Clickable;
 
 public class StateMainMenu implements State {
-	private static final Logger			logger		= Logger.getLogger(StateMainMenu.class.getName());
+	private static final StateMainMenu instance = new StateMainMenu();
 
-	private static final StateMainMenu	instance	= new StateMainMenu();
+	private static final Logger logger = Logger.getLogger(StateMainMenu.class
+			.getName());
+
+	public static StateMainMenu instance() {
+		return instance;
+	}
 
 	private StateMainMenu() {
 	}
 
 	@Override
-	public void handle(Context context) throws BotConfigurationException, InterruptedException {
+	public void handle(Context context) throws BotConfigurationException,
+			InterruptedException {
 		logger.info("StateMainMenu");
 		if (Thread.interrupted()) {
 			throw new InterruptedException("StateMainMenu is interrupted.");
@@ -26,16 +32,18 @@ public class StateMainMenu implements State {
 
 		RobotUtils.sleepRandom(350);
 		RobotUtils.leftClick(Clickable.UNIT_FIRST_RAX, 500);
-		
+
 		Point trainButton = ImageParser.findTrainButton();
 		if (trainButton == null) {
-			// maybe rax was already open and we closed it back. try one more time
+			// maybe rax was already open and we closed it back. try one more
+			// time
 			RobotUtils.leftClick(Clickable.UNIT_FIRST_RAX, 500);
 			trainButton = ImageParser.findTrainButton();
 		}
-		
+
 		if (trainButton == null) {
-			throw new BotConfigurationException("Barracks location is not correct.");
+			throw new BotConfigurationException(
+					"Barracks location is not correct.");
 		}
 
 		RobotUtils.leftClick(trainButton.x, trainButton.y, 500);
@@ -52,10 +60,6 @@ public class StateMainMenu implements State {
 			context.setState(StateTrainTroops.instance());
 		}
 		Thread.sleep(500 + RobotUtils.random.nextInt(500));
-	}
-
-	public static StateMainMenu instance() {
-		return instance;
 	}
 
 }

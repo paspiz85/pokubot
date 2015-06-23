@@ -5,7 +5,7 @@ public class BotException extends Exception {
 	/**
 	 * 
 	 */
-	private static final long	serialVersionUID	= 1L;
+	private static final long serialVersionUID = 1L;
 
 	public BotException(String msg) {
 		super(msg);
@@ -14,5 +14,5 @@ public class BotException extends Exception {
 	public BotException(String msg, Throwable t) {
 		super(msg, t);
 	}
-	
+
 }

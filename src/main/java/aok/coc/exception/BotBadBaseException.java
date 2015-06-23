@@ -2,7 +2,7 @@ package aok.coc.exception;
 
 public class BotBadBaseException extends BotException {
 
-	private static final long	serialVersionUID	= 1L;
+	private static final long serialVersionUID = 1L;
 
 	public BotBadBaseException(String msg) {
 		super(msg);

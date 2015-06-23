@@ -10,12 +10,14 @@ import aok.coc.util.coords.Clickable;
 
 public class DisconnectChecker implements Runnable {
 
-	private static final Logger	logger	= Logger.getLogger(DisconnectChecker.class.getName());
-	private final Context		context;
-	private final Thread				mainThread;
-	private final BotLauncher	botLauncher;
+	private static final Logger logger = Logger
+			.getLogger(DisconnectChecker.class.getName());
+	private final BotLauncher botLauncher;
+	private final Context context;
+	private final Thread mainThread;
 
-	public DisconnectChecker(Context context, Thread mainThread, BotLauncher botLauncher) {
+	public DisconnectChecker(Context context, Thread mainThread,
+			BotLauncher botLauncher) {
 		this.context = context;
 		this.mainThread = mainThread;
 		this.botLauncher = botLauncher;
@@ -27,38 +29,42 @@ public class DisconnectChecker implements Runnable {
 		try {
 			while (true) {
 				if (Thread.interrupted()) {
-					throw new InterruptedException("Disconnect detector is interrupted.");
+					throw new InterruptedException(
+							"Disconnect detector is interrupted.");
 				}
 
 				if (RobotUtils.isClickableActive(Clickable.UNIT_BLUESTACKS_DC)) {
 					logger.info("Detected disconnect.");
-					
+
 					// There are 2 cases:
 					// 1. launcher was running and it will be interrupted.
 					// It will go back to StateIdle start running immediately.
-					
-					// 2. launcher was already stopped and was waiting to be woken up by this.
-					
+
+					// 2. launcher was already stopped and was waiting to be
+					// woken up by this.
+
 					synchronized (context) {
 						// case 1
 						if (!botLauncher.isWaitingForDcChecker()) {
 							context.setDisconnected(true);
-							
+
 							// to fix a potential race condition.
 							// if bot launcher throws an exception and this
 							// gets the context lock right before bot launcher,
 							// we don't want bot launcher to wait for this
 							context.setWaitDone(true);
-							
+
 							mainThread.interrupt();
-						// case 2
+							// case 2
 						} else {
 							context.setWaitDone(true);
 							context.notify();
 						}
 					}
-					// temporarily pause StateIdle because in case current state is StateIdle
-					// when you click reload, screen would look like it is loaded for a second, before
+					// temporarily pause StateIdle because in case current state
+					// is StateIdle
+					// when you click reload, screen would look like it is
+					// loaded for a second, before
 					// loading actually starts and next state would be executed.
 					StateIdle.instance().setReloading(true);
 					RobotUtils.leftClick(Clickable.UNIT_RECONNECT, 5000);

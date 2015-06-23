@@ -6,9 +6,10 @@ import aok.coc.util.RobotUtils;
 import aok.coc.util.coords.Clickable;
 
 public class StateFindAMatch implements State {
-	private static final Logger				logger		= Logger.getLogger(StateFindAMatch.class.getName());
+	private static final StateFindAMatch instance = new StateFindAMatch();
 
-	private static final StateFindAMatch	instance	= new StateFindAMatch();
+	private static final Logger logger = Logger.getLogger(StateFindAMatch.class
+			.getName());
 
 	public static StateFindAMatch instance() {
 		return instance;

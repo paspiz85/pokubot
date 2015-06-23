@@ -11,7 +11,7 @@ package it.paspiz85.nanobot;
  */
 public interface Constants {
 
-    public static final String NAME = "NanoBot";
-    public static final String REPOSITORY = "norecha/pokubot";
-    
+	public static final String NAME = "NanoBot";
+	public static final String REPOSITORY = "norecha/pokubot";
+
 }
