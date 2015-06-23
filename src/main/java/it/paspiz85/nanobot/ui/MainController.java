@@ -27,10 +27,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import org.apache.maven.artifact.versioning.DefaultArtifactVersion;
-import org.kohsuke.github.GHRelease;
-import org.kohsuke.github.GHRepository;
-import org.kohsuke.github.GitHub;
 
 public class MainController implements ApplicationAwareController {
     
@@ -87,28 +83,29 @@ public class MainController implements ApplicationAwareController {
     @FXML
     private Label updateLabel;
     
-    private static final Logger logger = Logger.getLogger(MainController.class.getName());
     
-    private BotLauncher botLauncher = null;
+    protected final Logger logger = Logger.getLogger(getClass().getName());
+    
     private Service<Void> setupService = null;
     private Service<Void> runnerService = null;
-    private boolean isSetupDone = false;
     
     private Application application;
+    private final MainModel model = new MainModel();
     
     @FXML
-    private void initialize() {
-        
+     void initialize() {
+        model.initialize();
         LogHandler.initialize(textArea);
         
-        botLauncher = new BotLauncher();
         
         initializeLinks();
         initializeLabels();
         initializeTextFields();
         initializeSetupService();
         initializeRunnerService();
-        checkForUpdate();
+        if (model.checkForUpdate()) {
+            updateLabel.setVisible(true);
+        }
     }
     
     private void initializeLinks() {
@@ -152,7 +149,7 @@ public class MainController implements ApplicationAwareController {
                     
                     @Override
                     protected Void call() throws Exception {
-                        botLauncher.start();
+                        model.botLauncherStart();
                         return null;
                     }
                 };
@@ -187,8 +184,8 @@ public class MainController implements ApplicationAwareController {
                     
                     @Override
                     protected Void call() throws Exception {
-                        botLauncher.tearDown();
-                        botLauncher.setup();
+                        model.botLauncherTearDown();
+                        model.botLauncherSetup();
                         return null;
                     }
                 };
@@ -200,7 +197,7 @@ public class MainController implements ApplicationAwareController {
             public void handle(WorkerStateEvent event) {
                 initializeComboBox();
                 updateConfigGridPane();
-                isSetupDone = true;
+                model.setSetupDone(true);
                 logger.info("Setup is successful.");
                 logger.info("Click start to run.");
             }
@@ -210,7 +207,7 @@ public class MainController implements ApplicationAwareController {
             
             @Override
             public void handle(WorkerStateEvent event) {
-                isSetupDone = false;
+                model.setSetupDone(false);
                 logger.log(Level.SEVERE, "Setup is failed: " + setupService.getException().getMessage(), setupService.getException());
                 setupService.reset();
             }
@@ -220,7 +217,7 @@ public class MainController implements ApplicationAwareController {
             
             @Override
             public void handle(WorkerStateEvent event) {
-                isSetupDone = false;
+                model.setSetupDone(false);
                 logger.warning("Setup is cancelled.");
                 setupService.reset();
             }
@@ -284,15 +281,16 @@ public class MainController implements ApplicationAwareController {
     public void handleSetupButtonAction() {
         controlPane.setVisible(false);
         setupPane.setVisible(true);
+        if (!model.isSetupDone() && setupService.getState() == State.READY) {
+            setupService.start();
+        }
     }
     
     @FXML
     public void handleStartButtonAction() {
-        if (!isSetupDone && setupService.getState() == State.READY) {
-            setupService.start();
-        }
         
-        if (isSetupDone && runnerService.getState() == State.READY) {
+        
+        if (model.isSetupDone() && runnerService.getState() == State.READY) {
             runnerService.start();
         }
     }
@@ -357,36 +355,11 @@ public class MainController implements ApplicationAwareController {
         ConfigUtils.instance().save();
     }
 
-    /**
-     * GitHub dependency is only used here and unused parts are excluded. Make
-     * sure it works fine if it is used somewhere else.
-     */
-    private void checkForUpdate() {
-        try {
-            String current = getClass().getPackage().getImplementationVersion();
-            if (current == null) {
-                // IDE run
-                return;
-            }
-            DefaultArtifactVersion currentVersion = new DefaultArtifactVersion(current);
-            GitHub github = GitHub.connectAnonymously();
-            GHRepository repository = github.getRepository("norecha/pokubot");
-            for (GHRelease r : repository.listReleases()) {
-                String release = r.getName().substring(1);
-                DefaultArtifactVersion releaseVersion = new DefaultArtifactVersion(release);
-                if (currentVersion.compareTo(releaseVersion) < 0) {
-                    updateLabel.setVisible(true);
-                    return;
-                }
-            }
-        } catch (Exception e) {
-            logger.log(Level.WARNING, "Unable to get latest version", e);
-        }
-    }
+    
     
     @Override
     public void setApplication(Application application) {
         this.application = application;
     }
-    
+
 }

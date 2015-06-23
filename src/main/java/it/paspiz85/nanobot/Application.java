@@ -11,9 +11,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class Application extends javafx.application.Application {
-
-    public static final String NAME = "NanoBot";
+public class Application extends javafx.application.Application implements Constants {
 
     public static void main(String[] args) {
         try (InputStream inputStream = Application.class.getResourceAsStream("/logging.properties")) {
