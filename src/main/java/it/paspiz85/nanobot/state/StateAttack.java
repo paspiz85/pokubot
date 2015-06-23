@@ -1,4 +1,4 @@
-package aok.coc.state;
+package it.paspiz85.nanobot.state;
 
 import it.paspiz85.nanobot.attack.ManualAttack;
 import it.paspiz85.nanobot.util.Config;

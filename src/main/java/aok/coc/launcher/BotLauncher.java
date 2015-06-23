@@ -1,12 +1,13 @@
 package aok.coc.launcher;
 
+import it.paspiz85.nanobot.state.Context;
+import it.paspiz85.nanobot.state.StateIdle;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import aok.coc.exception.BotConfigurationException;
 import aok.coc.exception.BotException;
-import aok.coc.state.Context;
-import aok.coc.state.StateIdle;
 
 public class BotLauncher {
 

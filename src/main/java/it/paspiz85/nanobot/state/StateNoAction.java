@@ -1,4 +1,4 @@
-package aok.coc.state;
+package it.paspiz85.nanobot.state;
 
 import aok.coc.exception.BotException;
 

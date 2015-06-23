@@ -1,10 +1,11 @@
 package aok.coc.launcher;
 
+import it.paspiz85.nanobot.state.Context;
+import it.paspiz85.nanobot.state.StateIdle;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import aok.coc.state.Context;
-import aok.coc.state.StateIdle;
 import aok.coc.util.RobotUtils;
 import aok.coc.util.coords.Clickable;
 
