@@ -22,19 +22,14 @@ import com.sun.jna.platform.win32.WinNT;
 import com.sun.jna.platform.win32.WinReg;
 import com.sun.jna.platform.win32.WinReg.HKEYByReference;
 
-@Deprecated
 public class Setup {
 
-	public static final int BS_RES_X = 860;
-	public static final int BS_RES_Y = 720;
-	private static final String BS_WINDOW_NAME = "BlueStacks App Player";
-
-	private static HWND bsHwnd = null;
-
-	private static final Logger logger = Logger
-			.getLogger(Setup.class.getName());
-
-	public static void initialize() {
+	private static final Setup instance = new Setup();
+	public static Setup instance() {
+		return instance;
+	}
+	
+	private Setup() {
 		// set system locale to ROOT, Turkish clients will break because
 		// jnativehook dependency has Turkish I bug
 		Locale.setDefault(Locale.ROOT);
@@ -45,7 +40,17 @@ public class Setup {
 		Config.initialize();
 	}
 
-	public static void setup() throws BotConfigurationException,
+	public static final int BS_RES_X = 860;
+	public static final int BS_RES_Y = 720;
+	private static final String BS_WINDOW_NAME = "BlueStacks App Player";
+
+	private  HWND bsHwnd = null;
+
+	private  final Logger logger = Logger
+			.getLogger(getClass().getName());
+
+
+	public void setup() throws BotConfigurationException,
 	InterruptedException {
 		if (!Robot.SYSTEM_OS.toLowerCase(Locale.ROOT).contains("windows")) {
 			throw new BotConfigurationException(
@@ -74,7 +79,7 @@ public class Setup {
 		setupBarracks();
 	}
 
-	private static void setupBarracks() throws BotConfigurationException,
+	private void setupBarracks() throws BotConfigurationException,
 	InterruptedException {
 
 		if (!Config.instance().isBarracksConfigDone()) {
@@ -152,7 +157,7 @@ public class Setup {
 		}
 	}
 
-	private static void setupBsRect() throws BotConfigurationException {
+	private  void setupBsRect() throws BotConfigurationException {
 		bsHwnd = User32.INSTANCE.FindWindow(null, BS_WINDOW_NAME);
 		if (bsHwnd == null) {
 			throw new BotConfigurationException(BS_WINDOW_NAME
@@ -178,7 +183,7 @@ public class Setup {
 		User32.INSTANCE.SetWindowPos(bsHwnd, -1, 0, 0, 0, 0, TOPMOST_FLAGS);
 	}
 
-	private static void setupResolution() throws BotConfigurationException {
+	private void setupResolution() throws BotConfigurationException {
 		// update registry
 		try {
 			HKEYByReference key = Advapi32Util.registryGetKey(
@@ -247,7 +252,7 @@ public class Setup {
 		}
 	}
 
-	public static void tearDown() {
+	public  void tearDown() {
 		if (Config.isInitialized()) {
 			Config.close();
 		}

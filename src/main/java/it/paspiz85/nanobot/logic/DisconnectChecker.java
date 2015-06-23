@@ -8,20 +8,16 @@ import it.paspiz85.nanobot.util.Robot;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-@Deprecated
 public class DisconnectChecker implements Runnable {
 
 	private static final Logger logger = Logger
 			.getLogger(DisconnectChecker.class.getName());
-	private final BotLauncher botLauncher;
 	private final Context context;
 	private final Thread mainThread;
 
-	public DisconnectChecker(Context context, Thread mainThread,
-			BotLauncher botLauncher) {
+	public DisconnectChecker(Context context, Thread mainThread) {
 		this.context = context;
 		this.mainThread = mainThread;
-		this.botLauncher = botLauncher;
 	}
 
 	@Override
@@ -47,7 +43,7 @@ public class DisconnectChecker implements Runnable {
 
 					synchronized (context) {
 						// case 1
-						if (!botLauncher.isWaitingForDcChecker()) {
+						if (!Looper.instance().isWaitingForDcChecker()) {
 							context.setDisconnected(true);
 
 							// to fix a potential race condition.

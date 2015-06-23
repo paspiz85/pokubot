@@ -1,6 +1,5 @@
 package it.paspiz85.nanobot.logic;
 
-import it.paspiz85.nanobot.exception.BotConfigurationException;
 import it.paspiz85.nanobot.exception.BotException;
 import it.paspiz85.nanobot.state.Context;
 import it.paspiz85.nanobot.state.StateIdle;
@@ -8,16 +7,20 @@ import it.paspiz85.nanobot.state.StateIdle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-@Deprecated
-public class BotLauncher {
+public final class Looper {
+
+	private static final Looper instance = new Looper();
+	public static Looper instance() {
+		return instance;
+	}
+	
+	private Looper() {
+		
+	}
 
 	protected final Logger logger = Logger.getLogger(getClass().getName());
 
 	private boolean waitingForDcChecker = false;
-
-	public void initialize() {
-		Setup.initialize();
-	}
 
 	public boolean isWaitingForDcChecker() {
 		return waitingForDcChecker;
@@ -74,11 +77,6 @@ public class BotLauncher {
 		logger.info("Woken up. Launching again...");
 	}
 
-	public void setup() throws BotConfigurationException, InterruptedException {
-		// setup the bot
-		Setup.setup();
-	}
-
 	public void start() throws InterruptedException, BotException {
 		// state pattern
 		Context context = new Context();
@@ -86,7 +84,7 @@ public class BotLauncher {
 		// start daemon thread that checks if you are DC'ed etc
 		logger.info("Starting disconnect detector...");
 		Thread dcThread = new Thread(new DisconnectChecker(context,
-				Thread.currentThread(), this), "DisconnectCheckerThread");
+				Thread.currentThread()), "DisconnectCheckerThread");
 		dcThread.setDaemon(true);
 		dcThread.start();
 

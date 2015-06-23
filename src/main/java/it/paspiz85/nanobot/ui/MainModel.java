@@ -5,7 +5,8 @@
  */
 package it.paspiz85.nanobot.ui;
 
-import it.paspiz85.nanobot.logic.BotLauncher;
+import it.paspiz85.nanobot.logic.Looper;
+import it.paspiz85.nanobot.logic.Setup;
 import it.paspiz85.nanobot.util.Constants;
 
 import java.util.logging.Level;
@@ -26,8 +27,6 @@ import org.kohsuke.github.GitHub;
  */
 public class MainModel implements Constants {
 
-	private BotLauncher botLauncher = new BotLauncher();
-
 	protected final Logger logger = Logger.getLogger(getClass().getName());
 	private boolean setupDone = false;
 
@@ -36,15 +35,15 @@ public class MainModel implements Constants {
 	private Service<Void> runnerService = null;
 
 	private void botLauncherSetup() throws Exception {
-		botLauncher.setup();
+		Setup.instance().setup();
 	}
 
 	private void botLauncherStart() throws Exception {
-		botLauncher.start();
+		Looper.instance().start();
 	}
 
 	private void botLauncherTearDown() {
-		botLauncher.tearDown();
+		Looper.instance().tearDown();
 	}
 
 	/**
@@ -77,7 +76,6 @@ public class MainModel implements Constants {
 	}
 
 	void initialize() {
-		botLauncher.initialize();
 		initializeSetupService();
 		initializeRunnerService();
 

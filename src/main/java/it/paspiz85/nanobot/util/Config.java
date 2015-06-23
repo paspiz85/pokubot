@@ -19,7 +19,7 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Config implements Constants {
+public final class Config implements Constants {
 
 	private static final Config instance = new Config();
 

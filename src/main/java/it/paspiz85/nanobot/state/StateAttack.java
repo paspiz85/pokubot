@@ -19,6 +19,7 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 
 public class StateAttack extends State {
+	
 	private static final StateAttack instance = new StateAttack();
 
 	public static StateAttack instance() {
@@ -32,7 +33,7 @@ public class StateAttack extends State {
 
 	@Override
 	public void handle(Context context) throws InterruptedException,
-	BotException {
+			BotException {
 		while (true) {
 			logger.info("StateAttack");
 			if (Thread.interrupted()) {
@@ -68,7 +69,7 @@ public class StateAttack extends State {
 						.instance()) {
 					playAttackReady();
 					Config.instance().getAttackStrategy()
-					.attack(loot, attackGroup);
+							.attack(loot, attackGroup);
 					Robot.instance().leftClick(Clickable.BUTTON_END_BATTLE,
 							1200);
 					Robot.instance().leftClick(
