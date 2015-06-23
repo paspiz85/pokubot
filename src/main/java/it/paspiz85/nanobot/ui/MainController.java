@@ -1,18 +1,10 @@
 package it.paspiz85.nanobot.ui;
 
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javafx.application.Application;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.concurrent.Service;
-import javafx.concurrent.Task;
-import javafx.concurrent.Worker.State;
-import javafx.concurrent.WorkerStateEvent;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -57,9 +49,9 @@ public class MainController implements ApplicationAwareController {
 	private ImageView heartImage;
 	@FXML
 	private CheckBox isMatchAllConditionsCheckBox;
-	
+
 	protected final Logger logger = Logger.getLogger(getClass().getName());
-	
+
 	@FXML
 	private TextField maxThField;
 	private final MainModel model = new MainModel();
@@ -198,45 +190,32 @@ public class MainController implements ApplicationAwareController {
 	}
 
 	private void initializeLinks() {
-		githubLink.setOnAction(new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent t) {
-				application.getHostServices()
-						.showDocument(githubLink.getText());
-				githubLink.setVisited(false);
-			}
+		githubLink.setOnAction(t -> {
+			application.getHostServices().showDocument(githubLink.getText());
+			githubLink.setVisited(false);
 		});
 
 		Image heartIcon = new Image(getClass().getResourceAsStream(
 				"/images/heart.png"));
 		donateLink.setGraphic(new ImageView(heartIcon));
 
-		donateLink.setOnAction(new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent event) {
-				application.getHostServices().showDocument(
-						"https://github.com/norecha/pokubot#donate");
-				donateLink.setVisited(false);
-			}
+		donateLink.setOnAction(event -> {
+			application.getHostServices().showDocument(
+					"https://github.com/norecha/pokubot#donate");
+			donateLink.setVisited(false);
 		});
 	}
 
 	private void initializeTextFields() {
-		ChangeListener<String> intFieldListener = new ChangeListener<String>() {
-
-			@Override
-			public void changed(ObservableValue<? extends String> observable,
-					String oldValue, String newValue) {
-				try {
-					if (!newValue.isEmpty()) {
-						Integer.parseInt(newValue);
-					}
-				} catch (NumberFormatException e) {
-					((TextField) ((StringProperty) observable).getBean())
-							.setText(oldValue);
+		ChangeListener<String> intFieldListener = (observable, oldValue,
+				newValue) -> {
+			try {
+				if (!newValue.isEmpty()) {
+					Integer.parseInt(newValue);
 				}
+			} catch (NumberFormatException e) {
+				((TextField) ((StringProperty) observable).getBean())
+						.setText(oldValue);
 			}
 		};
 		goldField.textProperty().addListener(intFieldListener);
@@ -263,7 +242,7 @@ public class MainController implements ApplicationAwareController {
 		playSoundCheckBox.setSelected(ConfigUtils.instance().isPlaySound());
 		autoAttackComboBox.getSelectionModel().select(
 				ConfigUtils.instance().getAttackStrategy().getClass()
-						.getSimpleName());
+				.getSimpleName());
 		rax1ComboBox.getSelectionModel().select(
 				ConfigUtils.instance().getRaxInfo()[0].getDescription());
 		rax2ComboBox.getSelectionModel().select(

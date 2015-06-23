@@ -38,7 +38,7 @@ public class StateIdle implements State {
 			if (RobotUtils
 					.isClickableActive(Clickable.BUTTON_WAS_ATTACKED_HEADLINE)
 					|| RobotUtils
-							.isClickableActive(Clickable.BUTTON_WAS_ATTACKED_OKAY)) {
+					.isClickableActive(Clickable.BUTTON_WAS_ATTACKED_OKAY)) {
 				logger.info("Was attacked.");
 				RobotUtils.leftClick(Clickable.BUTTON_WAS_ATTACKED_OKAY, 250);
 			} else if (RobotUtils.isClickableActive(Clickable.BUTTON_ATTACK)) {

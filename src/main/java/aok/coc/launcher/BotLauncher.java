@@ -2,11 +2,7 @@ package aok.coc.launcher;
 
 import it.paspiz85.nanobot.util.Logging;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.logging.Handler;
 import java.util.logging.Level;
-import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 import aok.coc.exception.BotConfigurationException;
@@ -42,18 +38,18 @@ public class BotLauncher {
 		}
 	}
 
+	private boolean waitingForDcChecker = false;
+
 	public void initialize() {
 		Setup.initialize();
 	}
-
-	private boolean waitingForDcChecker = false;
 
 	public boolean isWaitingForDcChecker() {
 		return waitingForDcChecker;
 	}
 
 	private void loop(Context context) throws InterruptedException,
-			BotException {
+	BotException {
 		Exception botException; // throw in case of timeout
 		try {
 			while (true) {
@@ -93,7 +89,7 @@ public class BotLauncher {
 				// waitingForDcChecker is set to false
 				context.wait(timeout);
 
-				if ((System.currentTimeMillis() - tBefore) > timeout) {
+				if (System.currentTimeMillis() - tBefore > timeout) {
 					throw new BotException("Timed Out.", botException);
 				}
 			}
@@ -132,6 +128,6 @@ public class BotLauncher {
 	}
 
 	public void tearDown() {
-		//TODO Setup.tearDown();
+		// TODO Setup.tearDown();
 	}
 }

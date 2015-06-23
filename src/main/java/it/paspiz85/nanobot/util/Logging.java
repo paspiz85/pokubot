@@ -10,6 +10,12 @@ import java.util.logging.Logger;
 
 public class Logging {
 
+	public static void close() {
+		for (Handler h : Logger.getLogger("").getHandlers()) {
+			h.close();
+		}
+	}
+
 	public static void initialize() {
 		try (InputStream inputStream = Application.class
 				.getResourceAsStream("/logging.properties")) {
@@ -18,12 +24,6 @@ public class Logging {
 			Logger.getAnonymousLogger().severe(
 					"Could not load default logging.properties file");
 			Logger.getAnonymousLogger().severe(e.getMessage());
-		}
-	}
-
-	public static void close() {
-		for (Handler h : Logger.getLogger("").getHandlers()) {
-			h.close();
 		}
 	}
 

@@ -75,14 +75,14 @@ public class RobotUtils {
 	}
 
 	public static boolean compareColor(int c1, int c2, int var) {
-		int r1 = (c1 >> 16) & 0xFF;
-		int r2 = (c2 >> 16) & 0xFF;
+		int r1 = c1 >> 16 & 0xFF;
+		int r2 = c2 >> 16 & 0xFF;
 
-		int g1 = (c1 >> 8) & 0xFF;
-		int g2 = (c2 >> 8) & 0xFF;
+		int g1 = c1 >> 8 & 0xFF;
+		int g2 = c2 >> 8 & 0xFF;
 
-		int b1 = (c1 >> 0) & 0xFF;
-		int b2 = (c2 >> 0) & 0xFF;
+		int b1 = c1 >> 0 & 0xFF;
+		int b2 = c2 >> 0 & 0xFF;
 
 		if (Math.abs(r1 - r2) > var || Math.abs(g1 - g2) > var
 				|| Math.abs(b1 - b2) > var) {
@@ -147,13 +147,13 @@ public class RobotUtils {
 		while (isCtrlKeyDown()) {
 		}
 		User32.INSTANCE
-				.SendMessage(handler, WM_LBUTTONDOWN, 0x00000001, lParam);
+		.SendMessage(handler, WM_LBUTTONDOWN, 0x00000001, lParam);
 		User32.INSTANCE.SendMessage(handler, WM_LBUTTONUP, 0x00000000, lParam);
 	}
 
 	private static int makeParam(int low, int high) {
 		// to work for negative numbers
-		return (high << 16) | ((low << 16) >>> 16);
+		return high << 16 | low << 16 >>> 16;
 	}
 
 	public static void msgBox(String Text) {
@@ -182,7 +182,7 @@ public class RobotUtils {
 			String filePathFirst, String... filePathRest) throws IOException {
 		Path path = Paths.get(filePathFirst, filePathRest).toAbsolutePath();
 		String fileName = path.getFileName().toString();
-		if (!(path.getFileName().toString().toLowerCase().endsWith(".png"))) {
+		if (!path.getFileName().toString().toLowerCase().endsWith(".png")) {
 			fileName = path.getFileName().toString() + ".png";
 		}
 		BufferedImage img = screenShot(x1, y1, x2, y2);
@@ -230,7 +230,7 @@ public class RobotUtils {
 
 	public static void zoomUp(int notch) throws InterruptedException {
 		logger.info("Zooming out...");
-		int lParam = 0x00000001 | (0x50 /* scancode */<< 16) | 0x01000000 /* extended */;
+		int lParam = 0x00000001 | 0x50 /* scancode */<< 16 | 0x01000000 /* extended */;
 
 		WPARAM wparam = new WinDef.WPARAM(VK_DOWN);
 		LPARAM lparamDown = new WinDef.LPARAM(lParam);
@@ -240,7 +240,7 @@ public class RobotUtils {
 			while (isCtrlKeyDown()) {
 			}
 			User32.INSTANCE
-					.PostMessage(handler, WM_KEYDOWN, wparam, lparamDown);
+			.PostMessage(handler, WM_KEYDOWN, wparam, lparamDown);
 			User32.INSTANCE.PostMessage(handler, WM_KEYUP, wparam, lparamUp);
 			Thread.sleep(1000);
 		}

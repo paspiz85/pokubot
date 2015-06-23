@@ -23,7 +23,7 @@ public class SingleLineFormatter extends Formatter {
 
 	/**
 	 * Format the given LogRecord.
-	 * 
+	 *
 	 * @param record
 	 *            the log record to be formatted.
 	 * @return a formatted log record

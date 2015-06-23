@@ -12,9 +12,7 @@ import java.util.logging.Logger;
 
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
-import javafx.concurrent.WorkerStateEvent;
 import javafx.concurrent.Worker.State;
-import javafx.event.EventHandler;
 
 import org.apache.maven.artifact.versioning.DefaultArtifactVersion;
 import org.kohsuke.github.GHRelease;
@@ -34,6 +32,10 @@ public class MainModel implements Constants {
 	protected final Logger logger = Logger.getLogger(getClass().getName());
 	private boolean setupDone = false;
 
+	private Service<Void> setupService = null;
+
+	private Service<Void> runnerService = null;
+
 	private void botLauncherSetup() throws Exception {
 		botLauncher.setup();
 	}
@@ -44,95 +46,6 @@ public class MainModel implements Constants {
 
 	private void botLauncherTearDown() {
 		botLauncher.tearDown();
-	}
-
-	private void initializeRunnerService() {
-		runnerService = new Service<Void>() {
-
-			@Override
-			protected Task<Void> createTask() {
-				return new Task<Void>() {
-
-					@Override
-					protected Void call() throws Exception {
-						botLauncherStart();
-						return null;
-					}
-				};
-			}
-		};
-
-		runnerService.setOnCancelled(new EventHandler<WorkerStateEvent>() {
-
-			@Override
-			public void handle(WorkerStateEvent event) {
-				logger.warning("runner is cancelled.");
-				runnerService.reset();
-			}
-		});
-
-		runnerService.setOnFailed(new EventHandler<WorkerStateEvent>() {
-
-			@Override
-			public void handle(WorkerStateEvent event) {
-				logger.log(Level.SEVERE, "runner is failed: "
-						+ runnerService.getException().getMessage(),
-						runnerService.getException());
-				runnerService.reset();
-			}
-		});
-	}
-	private Service<Void> setupService = null;
-
-	private Service<Void> runnerService = null;
-
-	private void initializeSetupService() {
-		setupService = new Service<Void>() {
-
-			@Override
-			protected Task<Void> createTask() {
-				return new Task<Void>() {
-
-					@Override
-					protected Void call() throws Exception {
-						botLauncherTearDown();
-						botLauncherSetup();
-						return null;
-					}
-				};
-			}
-		};
-		setupService.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
-
-			@Override
-			public void handle(WorkerStateEvent event) {
-				setupDone = true;
-				logger.info("Setup is successful.");
-				logger.info("Click start to run.");
-			}
-		});
-
-		setupService.setOnFailed(new EventHandler<WorkerStateEvent>() {
-
-			@Override
-			public void handle(WorkerStateEvent event) {
-				setupDone = false;
-				logger.log(Level.SEVERE, "Setup is failed: "
-						+ setupService.getException().getMessage(),
-						setupService.getException());
-				setupService.reset();
-			}
-		});
-
-		setupService.setOnCancelled(new EventHandler<WorkerStateEvent>() {
-
-			@Override
-			public void handle(WorkerStateEvent event) {
-				setupDone = false;
-				logger.warning("Setup is cancelled.");
-				setupService.reset();
-			}
-		});
 	}
 
 	/**
@@ -174,6 +87,78 @@ public class MainModel implements Constants {
 		}
 	}
 
+	private void initializeRunnerService() {
+		runnerService = new Service<Void>() {
+
+			@Override
+			protected Task<Void> createTask() {
+				return new Task<Void>() {
+
+					@Override
+					protected Void call() throws Exception {
+						botLauncherStart();
+						return null;
+					}
+				};
+			}
+		};
+
+		runnerService.setOnCancelled(event -> {
+			logger.warning("runner is cancelled.");
+			runnerService.reset();
+		});
+
+		runnerService.setOnFailed(event -> {
+			logger.log(Level.SEVERE, "runner is failed: "
+					+ runnerService.getException().getMessage(),
+					runnerService.getException());
+			runnerService.reset();
+		});
+	}
+
+	private void initializeSetupService() {
+		setupService = new Service<Void>() {
+
+			@Override
+			protected Task<Void> createTask() {
+				return new Task<Void>() {
+
+					@Override
+					protected Void call() throws Exception {
+						botLauncherTearDown();
+						botLauncherSetup();
+						return null;
+					}
+				};
+			}
+		};
+		setupService.setOnSucceeded(event -> {
+			setupDone = true;
+			logger.info("Setup is successful.");
+			logger.info("Click start to run.");
+		});
+
+		setupService.setOnFailed(event -> {
+			setupDone = false;
+			logger.log(Level.SEVERE, "Setup is failed: "
+					+ setupService.getException().getMessage(),
+					setupService.getException());
+			setupService.reset();
+		});
+
+		setupService.setOnCancelled(event -> {
+			setupDone = false;
+			logger.warning("Setup is cancelled.");
+			setupService.reset();
+		});
+	}
+
+	public void start() {
+		if (setupDone && runnerService.getState() == State.READY) {
+			runnerService.start();
+		}
+	}
+
 	public void stop() {
 		if (setupService.isRunning()) {
 			setupService.cancel();
@@ -182,12 +167,6 @@ public class MainModel implements Constants {
 		if (runnerService.isRunning()) {
 			runnerService.cancel();
 			runnerService.reset();
-		}
-	}
-
-	public void start() {
-		if (setupDone && runnerService.getState() == State.READY) {
-			runnerService.start();
 		}
 	}
 

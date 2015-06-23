@@ -20,7 +20,7 @@ public class StateNoAction implements State {
 
 	@Override
 	public void handle(Context context) throws BotException,
-			InterruptedException {
+	InterruptedException {
 		logger.info("StateNoAction");
 	}
 
