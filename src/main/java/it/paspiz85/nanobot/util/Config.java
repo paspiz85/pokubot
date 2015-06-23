@@ -1,6 +1,6 @@
 package it.paspiz85.nanobot.util;
 
-import it.paspiz85.nanobot.attack.AbstractAttack;
+import it.paspiz85.nanobot.attack.Attack;
 import it.paspiz85.nanobot.attack.Attack2Side;
 import it.paspiz85.nanobot.attack.Attack4Side;
 import it.paspiz85.nanobot.attack.Attack4SideParallel;
@@ -186,8 +186,8 @@ public class Config {
 		return instance.isInitialized;
 	}
 
-	private AbstractAttack attackStrategy = ManualAttack.instance();
-	private final AbstractAttack[] availableAttacks = new AbstractAttack[] {
+	private Attack attackStrategy = ManualAttack.instance();
+	private final Attack[] availableAttacks = new Attack[] {
 			ManualAttack.instance(), Attack2Side.instance(),
 			Attack4Side.instance(), Attack4SideParallel.instance(),
 			Attack4SideParallelHalf2Wave.instance(),
@@ -251,13 +251,13 @@ public class Config {
 
 		String[] result = new String[availableAttacks.length];
 		for (int i = 0; i < availableAttacks.length; i++) {
-			AbstractAttack a = availableAttacks[i];
+			Attack a = availableAttacks[i];
 			result[i] = a.getClass().getSimpleName();
 		}
 		return result;
 	}
 
-	public AbstractAttack getAttackStrategy() {
+	public Attack getAttackStrategy() {
 		return this.attackStrategy;
 	}
 
@@ -343,7 +343,7 @@ public class Config {
 
 	public void setAttackStrategy(String attackStrategy) {
 		boolean found = false;
-		for (AbstractAttack attack : availableAttacks) {
+		for (Attack attack : availableAttacks) {
 			if (attack.getClass().getSimpleName().equals(attackStrategy)) {
 				this.attackStrategy = attack;
 				found = true;

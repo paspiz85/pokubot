@@ -1,6 +1,6 @@
 package it.paspiz85.nanobot.attack;
 
-public class ManualAttack extends AbstractAttack {
+public class ManualAttack extends Attack {
 
 	private static final ManualAttack instance = new ManualAttack();
 

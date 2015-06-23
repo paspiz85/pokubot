@@ -6,25 +6,24 @@ import aok.coc.exception.BotBadBaseException;
 import aok.coc.util.ImageParser;
 import aok.coc.util.RobotUtils;
 
-public abstract class AbstractAttack {
+public abstract class Attack {
+
 	protected static int BOTTOM_LEFT_X = 300;
 
 	protected static int BOTTOM_LEFT_Y = 536;
+
 	protected static int BOTTOM_RIGHT_X = 537;
-
 	protected static int BOTTOM_RIGHT_Y = 538;
-	protected static int LEFT_X = 19;
 
+	protected static int LEFT_X = 19;
 	protected static int LEFT_Y = 307;
-	private static final Logger logger = Logger.getLogger(AbstractAttack.class
-			.getName());
 
 	protected static final int PAUSE_BETWEEN_UNIT_DROP = 61;
+
 	protected static int RIGHT_X = 836;
-
 	protected static int RIGHT_Y = 307;
-	protected static int TOP_X = 429;
 
+	protected static int TOP_X = 429;
 	protected static int TOP_Y = 18;
 
 	protected static final int[][] pointsBetweenFromToInclusive(int fromX,
@@ -48,6 +47,8 @@ public abstract class AbstractAttack {
 
 		return result;
 	}
+
+	protected final Logger logger = Logger.getLogger(getClass().getName());
 
 	public void attack(int[] loot, int[] attackGroup)
 			throws InterruptedException {

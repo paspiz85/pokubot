@@ -147,7 +147,7 @@ public class RobotUtils {
 		while (isCtrlKeyDown()) {
 		}
 		User32.INSTANCE
-		.SendMessage(handler, WM_LBUTTONDOWN, 0x00000001, lParam);
+				.SendMessage(handler, WM_LBUTTONDOWN, 0x00000001, lParam);
 		User32.INSTANCE.SendMessage(handler, WM_LBUTTONUP, 0x00000000, lParam);
 	}
 
@@ -240,7 +240,7 @@ public class RobotUtils {
 			while (isCtrlKeyDown()) {
 			}
 			User32.INSTANCE
-			.PostMessage(handler, WM_KEYDOWN, wparam, lparamDown);
+					.PostMessage(handler, WM_KEYDOWN, wparam, lparamDown);
 			User32.INSTANCE.PostMessage(handler, WM_KEYUP, wparam, lparamUp);
 			Thread.sleep(1000);
 		}

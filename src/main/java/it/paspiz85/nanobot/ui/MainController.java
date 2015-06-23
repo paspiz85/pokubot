@@ -167,8 +167,7 @@ public class MainController implements ApplicationAwareController {
 				Config.instance().getAttackStrategies());
 		autoAttackComboBox.setValue(autoAttackComboBox.getItems().get(0));
 
-		Clickable[] availableTroops = Config.instance()
-				.getAvailableTroops();
+		Clickable[] availableTroops = Config.instance().getAvailableTroops();
 		String[] troops = new String[availableTroops.length];
 		for (int i = 0; i < availableTroops.length; i++) {
 			Clickable c = availableTroops[i];
@@ -210,19 +209,19 @@ public class MainController implements ApplicationAwareController {
 	private void initializeTextFields() {
 		ChangeListener<String> intFieldListener = (observable, oldValue,
 				newValue) -> {
-			try {
-				if (!newValue.isEmpty()) {
-					Integer.parseInt(newValue);
-				}
-			} catch (NumberFormatException e) {
-				((TextField) ((StringProperty) observable).getBean())
+					try {
+						if (!newValue.isEmpty()) {
+							Integer.parseInt(newValue);
+						}
+					} catch (NumberFormatException e) {
+						((TextField) ((StringProperty) observable).getBean())
 						.setText(oldValue);
-			}
-		};
-		goldField.textProperty().addListener(intFieldListener);
-		elixirField.textProperty().addListener(intFieldListener);
-		deField.textProperty().addListener(intFieldListener);
-		maxThField.textProperty().addListener(intFieldListener);
+					}
+				};
+				goldField.textProperty().addListener(intFieldListener);
+				elixirField.textProperty().addListener(intFieldListener);
+				deField.textProperty().addListener(intFieldListener);
+				maxThField.textProperty().addListener(intFieldListener);
 	}
 
 	@Override
@@ -243,7 +242,7 @@ public class MainController implements ApplicationAwareController {
 		playSoundCheckBox.setSelected(Config.instance().isPlaySound());
 		autoAttackComboBox.getSelectionModel().select(
 				Config.instance().getAttackStrategy().getClass()
-				.getSimpleName());
+						.getSimpleName());
 		rax1ComboBox.getSelectionModel().select(
 				Config.instance().getRaxInfo()[0].getDescription());
 		rax2ComboBox.getSelectionModel().select(

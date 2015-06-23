@@ -1,7 +1,5 @@
 package aok.coc.launcher;
 
-import it.paspiz85.nanobot.util.Logging;
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -12,30 +10,7 @@ import aok.coc.state.StateIdle;
 
 public class BotLauncher {
 
-	private static final Logger logger = Logger.getLogger(BotLauncher.class
-			.getName());
-
-	public static void main(String[] args) {
-		Logging.initialize();
-		try {
-			// run the bot
-			BotLauncher launcher = new BotLauncher();
-			launcher.initialize();
-			launcher.setup();
-			launcher.start();
-		} catch (InterruptedException e) {
-			logger.log(Level.SEVERE, e.getMessage(), e);
-			System.exit(1);
-		} catch (BotConfigurationException e) {
-			logger.log(Level.SEVERE, e.getMessage(), e);
-			System.exit(2);
-		} catch (BotException e) {
-			logger.log(Level.SEVERE, e.getMessage(), e);
-			System.exit(3);
-		} finally {
-			Logging.close();
-		}
-	}
+	protected final Logger logger = Logger.getLogger(getClass().getName());
 
 	private boolean waitingForDcChecker = false;
 
@@ -48,7 +23,7 @@ public class BotLauncher {
 	}
 
 	private void loop(Context context) throws InterruptedException,
-	BotException {
+			BotException {
 		Exception botException; // throw in case of timeout
 		try {
 			while (true) {

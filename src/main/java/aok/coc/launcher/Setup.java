@@ -47,7 +47,7 @@ public class Setup {
 	}
 
 	public static void setup() throws BotConfigurationException,
-	InterruptedException {
+			InterruptedException {
 		if (!RobotUtils.SYSTEM_OS.toLowerCase(Locale.ROOT).contains("windows")) {
 			throw new BotConfigurationException(
 					"Bot is only available for Windows OS.");
@@ -76,7 +76,7 @@ public class Setup {
 	}
 
 	private static void setupBarracks() throws BotConfigurationException,
-	InterruptedException {
+			InterruptedException {
 
 		if (!Config.instance().isBarracksConfigDone()) {
 			RobotUtils.zoomUp();

@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -20,11 +19,8 @@ import aok.coc.util.RobotUtils;
 import aok.coc.util.coords.Area;
 import aok.coc.util.coords.Clickable;
 
-public class StateAttack implements State {
+public class StateAttack extends State {
 	private static final StateAttack instance = new StateAttack();
-
-	private static final Logger logger = Logger.getLogger(StateAttack.class
-			.getName());
 
 	public static StateAttack instance() {
 		return instance;
@@ -37,7 +33,7 @@ public class StateAttack implements State {
 
 	@Override
 	public void handle(Context context) throws InterruptedException,
-	BotException {
+			BotException {
 		while (true) {
 			logger.info("StateAttack");
 			if (Thread.interrupted()) {
@@ -73,7 +69,7 @@ public class StateAttack implements State {
 						.instance()) {
 					playAttackReady();
 					Config.instance().getAttackStrategy()
-					.attack(loot, attackGroup);
+							.attack(loot, attackGroup);
 					RobotUtils.leftClick(Clickable.BUTTON_END_BATTLE, 1200);
 					RobotUtils.leftClick(
 							Clickable.BUTTON_END_BATTLE_QUESTION_OKAY, 1200);
@@ -123,7 +119,7 @@ public class StateAttack implements State {
 			return;
 		}
 		String[] clips = new String[] { "/fight.wav", "/finishim.wav",
-		"/getoverhere.wav" };
+				"/getoverhere.wav" };
 		URL resource = this.getClass().getResource(
 				clips[RobotUtils.random.nextInt(clips.length)]);
 		try (Clip clip = AudioSystem.getClip();

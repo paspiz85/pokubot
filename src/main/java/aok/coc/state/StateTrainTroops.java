@@ -1,17 +1,11 @@
 package aok.coc.state;
 
 import it.paspiz85.nanobot.util.Config;
-
-import java.util.logging.Logger;
-
 import aok.coc.util.RobotUtils;
 import aok.coc.util.coords.Clickable;
 
-public class StateTrainTroops implements State {
+public class StateTrainTroops extends State {
 	private static StateTrainTroops instance = new StateTrainTroops();
-
-	private static final Logger logger = Logger
-			.getLogger(StateTrainTroops.class.getName());
 
 	public static StateTrainTroops instance() {
 		return instance;

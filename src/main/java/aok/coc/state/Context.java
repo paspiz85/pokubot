@@ -5,8 +5,7 @@ import java.util.logging.Logger;
 import aok.coc.exception.BotException;
 
 public class Context {
-	private static final Logger logger = Logger.getLogger(Context.class
-			.getName());
+	protected final Logger logger = Logger.getLogger(getClass().getName());
 
 	private State current;
 	private boolean disconnected = false;

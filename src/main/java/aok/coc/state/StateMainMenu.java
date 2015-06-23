@@ -1,18 +1,14 @@
 package aok.coc.state;
 
 import java.awt.Point;
-import java.util.logging.Logger;
 
 import aok.coc.exception.BotConfigurationException;
 import aok.coc.util.ImageParser;
 import aok.coc.util.RobotUtils;
 import aok.coc.util.coords.Clickable;
 
-public class StateMainMenu implements State {
+public class StateMainMenu extends State {
 	private static final StateMainMenu instance = new StateMainMenu();
-
-	private static final Logger logger = Logger.getLogger(StateMainMenu.class
-			.getName());
 
 	public static StateMainMenu instance() {
 		return instance;
@@ -23,7 +19,7 @@ public class StateMainMenu implements State {
 
 	@Override
 	public void handle(Context context) throws BotConfigurationException,
-	InterruptedException {
+			InterruptedException {
 		logger.info("StateMainMenu");
 		if (Thread.interrupted()) {
 			throw new InterruptedException("StateMainMenu is interrupted.");

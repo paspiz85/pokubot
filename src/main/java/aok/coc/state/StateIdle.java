@@ -1,15 +1,10 @@
 package aok.coc.state;
 
-import java.util.logging.Logger;
-
 import aok.coc.util.RobotUtils;
 import aok.coc.util.coords.Clickable;
 
-public class StateIdle implements State {
+public class StateIdle extends State {
 	private static final StateIdle instance = new StateIdle();
-
-	private static final Logger logger = Logger.getLogger(StateIdle.class
-			.getName());
 
 	public static StateIdle instance() {
 		return instance;
@@ -38,7 +33,7 @@ public class StateIdle implements State {
 			if (RobotUtils
 					.isClickableActive(Clickable.BUTTON_WAS_ATTACKED_HEADLINE)
 					|| RobotUtils
-					.isClickableActive(Clickable.BUTTON_WAS_ATTACKED_OKAY)) {
+							.isClickableActive(Clickable.BUTTON_WAS_ATTACKED_OKAY)) {
 				logger.info("Was attacked.");
 				RobotUtils.leftClick(Clickable.BUTTON_WAS_ATTACKED_OKAY, 250);
 			} else if (RobotUtils.isClickableActive(Clickable.BUTTON_ATTACK)) {

@@ -1,15 +1,10 @@
 package aok.coc.state;
 
-import java.util.logging.Logger;
-
 import aok.coc.util.RobotUtils;
 import aok.coc.util.coords.Clickable;
 
-public class StateFindAMatch implements State {
+public class StateFindAMatch extends State {
 	private static final StateFindAMatch instance = new StateFindAMatch();
-
-	private static final Logger logger = Logger.getLogger(StateFindAMatch.class
-			.getName());
 
 	public static StateFindAMatch instance() {
 		return instance;

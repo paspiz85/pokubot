@@ -1,15 +1,10 @@
 package it.paspiz85.nanobot.attack;
 
-import java.util.logging.Logger;
-
 import aok.coc.util.RobotUtils;
 import aok.coc.util.coords.Clickable;
 
-public class Attack4Side extends AbstractAttack {
+public class Attack4Side extends Attack {
 	private static final Attack4Side instance = new Attack4Side();
-
-	private static final Logger logger = Logger.getLogger(Attack4Side.class
-			.getName());
 
 	public static Attack4Side instance() {
 		return instance;
