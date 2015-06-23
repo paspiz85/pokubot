@@ -1,5 +1,6 @@
 package aok.coc.launcher;
 
+import it.paspiz85.nanobot.exception.BotConfigurationException;
 import it.paspiz85.nanobot.util.Config;
 import it.paspiz85.nanobot.win32.User32;
 
@@ -12,7 +13,6 @@ import org.jnativehook.NativeHookException;
 import org.jnativehook.mouse.NativeMouseEvent;
 import org.jnativehook.mouse.NativeMouseListener;
 
-import aok.coc.exception.BotConfigurationException;
 import aok.coc.util.RobotUtils;
 import aok.coc.util.coords.Clickable;
 

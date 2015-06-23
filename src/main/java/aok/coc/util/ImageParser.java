@@ -1,5 +1,8 @@
 package aok.coc.util;
 
+import it.paspiz85.nanobot.exception.BotBadBaseException;
+import it.paspiz85.nanobot.exception.BotException;
+
 import java.awt.Color;
 import java.awt.Point;
 import java.awt.Polygon;
@@ -28,8 +31,6 @@ import javax.imageio.ImageIO;
 import org.sikuli.core.search.RegionMatch;
 import org.sikuli.core.search.algorithm.TemplateMatcher;
 
-import aok.coc.exception.BotBadBaseException;
-import aok.coc.exception.BotException;
 import aok.coc.util.coords.Area;
 
 public class ImageParser {

@@ -1,4 +1,4 @@
-package aok.coc.exception;
+package it.paspiz85.nanobot.exception;
 
 public class BotException extends Exception {
 

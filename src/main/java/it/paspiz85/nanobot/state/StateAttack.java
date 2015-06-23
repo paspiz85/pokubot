@@ -1,6 +1,8 @@
 package it.paspiz85.nanobot.state;
 
 import it.paspiz85.nanobot.attack.ManualAttack;
+import it.paspiz85.nanobot.exception.BotBadBaseException;
+import it.paspiz85.nanobot.exception.BotException;
 import it.paspiz85.nanobot.util.Config;
 
 import java.io.IOException;
@@ -12,8 +14,6 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 
-import aok.coc.exception.BotBadBaseException;
-import aok.coc.exception.BotException;
 import aok.coc.util.ImageParser;
 import aok.coc.util.RobotUtils;
 import aok.coc.util.coords.Area;

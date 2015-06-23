@@ -1,6 +1,6 @@
 package it.paspiz85.nanobot.state;
 
-import aok.coc.exception.BotException;
+import it.paspiz85.nanobot.exception.BotException;
 
 public class StateNoAction extends State {
 

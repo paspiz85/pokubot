@@ -1,8 +1,9 @@
 package it.paspiz85.nanobot.state;
 
+import it.paspiz85.nanobot.exception.BotConfigurationException;
+
 import java.awt.Point;
 
-import aok.coc.exception.BotConfigurationException;
 import aok.coc.util.ImageParser;
 import aok.coc.util.RobotUtils;
 import aok.coc.util.coords.Clickable;

@@ -1,5 +1,8 @@
 package aok.coc.util;
 
+import it.paspiz85.nanobot.exception.BotBadBaseException;
+import it.paspiz85.nanobot.exception.BotException;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -12,9 +15,6 @@ import javax.imageio.ImageIO;
 
 import org.junit.Assert;
 import org.junit.Test;
-
-import aok.coc.exception.BotBadBaseException;
-import aok.coc.exception.BotException;
 
 public class TestImageParser {
 	

@@ -1,8 +1,9 @@
 package it.paspiz85.nanobot.attack;
 
+import it.paspiz85.nanobot.exception.BotBadBaseException;
+
 import java.util.logging.Logger;
 
-import aok.coc.exception.BotBadBaseException;
 import aok.coc.util.ImageParser;
 import aok.coc.util.RobotUtils;
 
