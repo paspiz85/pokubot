@@ -1,11 +1,12 @@
-package aok.coc.util;
+package it.paspiz85.nanobot.util;
 
+import it.paspiz85.nanobot.parsing.Area;
+import it.paspiz85.nanobot.parsing.Clickable;
 import it.paspiz85.nanobot.win32.User32;
 
 import java.awt.AWTException;
 import java.awt.Color;
 import java.awt.Rectangle;
-import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -18,40 +19,36 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
-import aok.coc.util.coords.Area;
-import aok.coc.util.coords.Clickable;
-
 import com.sun.jna.platform.win32.WinDef;
 import com.sun.jna.platform.win32.WinDef.HWND;
 import com.sun.jna.platform.win32.WinDef.LPARAM;
 import com.sun.jna.platform.win32.WinDef.POINT;
 import com.sun.jna.platform.win32.WinDef.WPARAM;
 
-public class RobotUtils {
-	private static HWND handler = null;
+public class Robot {
 
-	// MY_CLIENT_61.638==MY_WINDOW.64.668
-	private static final Logger logger = Logger.getLogger(RobotUtils.class
-			.getName());
-	private static Robot r;
-	public static Random random = new Random();
+	private static final Robot instance = new Robot();
+
+	private static Random random = new Random();
 	public static final int SCREEN_HEIGHT = Toolkit.getDefaultToolkit()
 			.getScreenSize().height;
+
 	public static final int SCREEN_WIDTH = Toolkit.getDefaultToolkit()
 			.getScreenSize().width;
+
 	public static final String SYSTEM_OS = System.getProperty("os.name");
-
 	public static final String USER_HOME_DIR = System.getProperty("user.home");
-
 	public static final String USER_NAME = System.getProperty("user.name");
-
 	public static final int VK_CONTROL = 0x11;
-
 	public static final int VK_DOWN = 0x28;
 	public static final int WM_COMMAND = 0x111;
+
 	public static final int WM_KEYDOWN = 0x100;
+
 	public static final int WM_KEYUP = 0x101;
+
 	public static final int WM_LBUTTONDBLCLK = 0x203;
+
 	public static final int WM_LBUTTONDOWN = 0x201;
 	public static final int WM_LBUTTONUP = 0x202;
 	public static final int WM_MOUSEWHEEL = 0x20A;
@@ -62,19 +59,44 @@ public class RobotUtils {
 	public static final int WM_RBUTTONUP = 0x205;
 	public static final String WORKING_DIR = System.getProperty("user.dir");
 
-	static {
+	public static Robot instance() {
+		return instance;
+	}
+
+	private static int makeParam(int low, int high) {
+		// to work for negative numbers
+		return high << 16 | low << 16 >>> 16;
+	}
+
+	private static void msgBox(String Text, String Title) {
+		JOptionPane.showMessageDialog(null, Text, Title,
+				JOptionPane.PLAIN_MESSAGE); // Show message box
+	}
+
+	public static Random random() {
+		return random;
+	}
+
+	private HWND handler = null;
+
+	// MY_CLIENT_61.638==MY_WINDOW.64.668
+	protected final Logger logger = Logger.getLogger(getClass().getName());
+
+	private java.awt.Robot r;
+
+	private Robot() {
 		try {
-			r = new Robot();
+			r = new java.awt.Robot();
 		} catch (AWTException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public static boolean clientToScreen(POINT clientPoint) {
+	public boolean clientToScreen(POINT clientPoint) {
 		return User32.INSTANCE.ClientToScreen(handler, clientPoint);
 	}
 
-	public static boolean compareColor(int c1, int c2, int var) {
+	public boolean compareColor(int c1, int c2, int var) {
 		int r1 = c1 >> 16 & 0xFF;
 		int r2 = c2 >> 16 & 0xFF;
 
@@ -92,7 +114,7 @@ public class RobotUtils {
 		}
 	}
 
-	public static boolean confirmationBox(String msg, String title) {
+	public boolean confirmationBox(String msg, String title) {
 		int result = JOptionPane.showConfirmDialog(null, msg, title,
 				JOptionPane.YES_NO_OPTION);
 
@@ -103,7 +125,7 @@ public class RobotUtils {
 		}
 	}
 
-	public static boolean isClickableActive(Clickable clickable) {
+	public boolean isClickableActive(Clickable clickable) {
 		if (clickable.getColor() == null) {
 			throw new IllegalArgumentException(clickable.name());
 		}
@@ -114,28 +136,28 @@ public class RobotUtils {
 		return compareColor(tarColor, actualColor, 5);
 	}
 
-	private static boolean isCtrlKeyDown() {
+	private boolean isCtrlKeyDown() {
 		return User32.INSTANCE.GetKeyState(VK_CONTROL) < 0;
 	}
 
-	public static void leftClick(Clickable clickable, int sleepInMs)
+	public void leftClick(Clickable clickable, int sleepInMs)
 			throws InterruptedException {
 		boolean randomize = clickable != Clickable.UNIT_FIRST_RAX;
 		leftClickWin32(clickable.getX(), clickable.getY(), randomize);
 		Thread.sleep(sleepInMs + random.nextInt(sleepInMs));
 	}
 
-	public static void leftClick(int x, int y) {
+	public void leftClick(int x, int y) {
 		leftClickWin32(x, y, false);
 	}
 
-	public static void leftClick(int x, int y, int sleepInMs)
+	public void leftClick(int x, int y, int sleepInMs)
 			throws InterruptedException {
 		leftClickWin32(x, y, false);
 		Thread.sleep(sleepInMs + random.nextInt(sleepInMs));
 	}
 
-	private static void leftClickWin32(int x, int y, boolean randomize) {
+	private void leftClickWin32(int x, int y, boolean randomize) {
 		// randomize coordinates little bit
 		if (randomize) {
 			x += -1 + random.nextInt(3);
@@ -147,38 +169,28 @@ public class RobotUtils {
 		while (isCtrlKeyDown()) {
 		}
 		User32.INSTANCE
-				.SendMessage(handler, WM_LBUTTONDOWN, 0x00000001, lParam);
+		.SendMessage(handler, WM_LBUTTONDOWN, 0x00000001, lParam);
 		User32.INSTANCE.SendMessage(handler, WM_LBUTTONUP, 0x00000000, lParam);
 	}
 
-	private static int makeParam(int low, int high) {
-		// to work for negative numbers
-		return high << 16 | low << 16 >>> 16;
-	}
-
-	public static void msgBox(String Text) {
+	public void msgBox(String Text) {
 		msgBox(Text, "");
 	}
 
-	private static void msgBox(String Text, String Title) {
-		JOptionPane.showMessageDialog(null, Text, Title,
-				JOptionPane.PLAIN_MESSAGE); // Show message box
-	}
-
-	public static Color pixelGetColor(int x, int y) {
+	public Color pixelGetColor(int x, int y) {
 		POINT point = new POINT(x, y);
 		clientToScreen(point);
 		Color pixel = r.getPixelColor(point.x, point.y);
 		return pixel;
 	}
 
-	public static File saveScreenShot(Area area, String filePathFirst,
+	public File saveScreenShot(Area area, String filePathFirst,
 			String... filePathRest) throws IOException {
 		return saveScreenShot(area.getX1(), area.getY1(), area.getX2(),
 				area.getY2(), filePathFirst, filePathRest);
 	}
 
-	public static File saveScreenShot(int x1, int y1, int x2, int y2,
+	public File saveScreenShot(int x1, int y1, int x2, int y2,
 			String filePathFirst, String... filePathRest) throws IOException {
 		Path path = Paths.get(filePathFirst, filePathRest).toAbsolutePath();
 		String fileName = path.getFileName().toString();
@@ -194,27 +206,27 @@ public class RobotUtils {
 		return file;
 	}
 
-	public static BufferedImage screenShot(Area area) {
+	public BufferedImage screenShot(Area area) {
 		return screenShot(area.getX1(), area.getY1(), area.getX2(),
 				area.getY2());
 	}
 
-	public static BufferedImage screenShot(int x1, int y1, int x2, int y2) {
+	public BufferedImage screenShot(int x1, int y1, int x2, int y2) {
 		POINT point = new POINT(x1, y1);
 		clientToScreen(point);
 		return r.createScreenCapture(new Rectangle(point.x, point.y, x2 - x1,
 				y2 - y1));
 	}
 
-	public static void setupWin32(HWND handler) {
-		RobotUtils.handler = handler;
+	public void setupWin32(HWND handler) {
+		this.handler = handler;
 	}
 
-	public static void sleepRandom(int i) throws InterruptedException {
+	public void sleepRandom(int i) throws InterruptedException {
 		Thread.sleep(i + random.nextInt(i));
 	}
 
-	public static void sleepTillClickableIsActive(Clickable clickable)
+	public void sleepTillClickableIsActive(Clickable clickable)
 			throws InterruptedException {
 		while (true) {
 			if (isClickableActive(clickable)) {
@@ -224,11 +236,11 @@ public class RobotUtils {
 		}
 	}
 
-	public static void zoomUp() throws InterruptedException {
+	public void zoomUp() throws InterruptedException {
 		zoomUp(14);
 	}
 
-	public static void zoomUp(int notch) throws InterruptedException {
+	public void zoomUp(int notch) throws InterruptedException {
 		logger.info("Zooming out...");
 		int lParam = 0x00000001 | 0x50 /* scancode */<< 16 | 0x01000000 /* extended */;
 
@@ -240,7 +252,7 @@ public class RobotUtils {
 			while (isCtrlKeyDown()) {
 			}
 			User32.INSTANCE
-					.PostMessage(handler, WM_KEYDOWN, wparam, lparamDown);
+			.PostMessage(handler, WM_KEYDOWN, wparam, lparamDown);
 			User32.INSTANCE.PostMessage(handler, WM_KEYUP, wparam, lparamUp);
 			Thread.sleep(1000);
 		}

@@ -7,6 +7,7 @@ import it.paspiz85.nanobot.attack.Attack4SideParallel;
 import it.paspiz85.nanobot.attack.Attack4SideParallelFull2Wave;
 import it.paspiz85.nanobot.attack.Attack4SideParallelHalf2Wave;
 import it.paspiz85.nanobot.attack.ManualAttack;
+import it.paspiz85.nanobot.parsing.Clickable;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -18,22 +19,14 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import aok.coc.launcher.Setup;
-import aok.coc.util.coords.Clickable;
+public class Config implements Constants {
 
-public class Config {
-
-	// ----------------------------------------------------------
-	// Singleton reference
-	// Thread safe
 	private static final Config instance = new Config();
 
 	private static final Logger logger = Logger.getLogger(Config.class
 			.getName());
 
 	private static final String PROPERTY_ATTACK_STRAT = "attack_strat";
-
-	// ----------------------------------------------------------
 
 	private static final String PROPERTY_BARRACKS_COORDS = "barracks_coords";
 	private static final String PROPERTY_DE = "de";
@@ -64,12 +57,12 @@ public class Config {
 
 		String appdata = System.getenv("appdata");
 
-		File root = new File(appdata, Setup.APP_NAME);
+		File root = new File(appdata, ".");
 		if (!root.isDirectory()) {
 			root.mkdir();
 		}
 
-		instance.configFile = new File(root, "config.properties");
+		instance.configFile = new File(root, NAME.toLowerCase() + ".properties");
 		Properties configProperties = new Properties();
 
 		if (instance.configFile.isFile()) {
@@ -224,9 +217,8 @@ public class Config {
 			Clickable.BUTTON_RAX_BARB, Clickable.BUTTON_RAX_BARB,
 			Clickable.BUTTON_RAX_ARCHER, Clickable.BUTTON_RAX_ARCHER, };
 
-	// Private constructor - must be singleton
 	private Config() {
-		// NOTE: Must remain empty.
+
 	}
 
 	public boolean doConditionsMatch(int gold, int elixir, int de) {

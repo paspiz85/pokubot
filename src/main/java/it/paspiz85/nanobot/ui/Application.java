@@ -1,6 +1,6 @@
 package it.paspiz85.nanobot.ui;
 
-import it.paspiz85.nanobot.Constants;
+import it.paspiz85.nanobot.util.Constants;
 import it.paspiz85.nanobot.util.Logging;
 
 import java.io.IOException;
@@ -11,7 +11,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class Application extends javafx.application.Application implements
-		Constants {
+Constants {
 
 	public static void main(String[] args) {
 		Logging.initialize();

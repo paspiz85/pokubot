@@ -5,10 +5,13 @@ import it.paspiz85.nanobot.exception.BotException;
 import java.util.logging.Logger;
 
 public class Context {
+
 	protected final Logger logger = Logger.getLogger(getClass().getName());
 
 	private State current;
+
 	private boolean disconnected = false;
+
 	private boolean waitDone = false;
 
 	public void handle() throws BotException, InterruptedException {

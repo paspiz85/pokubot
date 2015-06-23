@@ -1,11 +1,10 @@
 package it.paspiz85.nanobot.attack;
 
 import it.paspiz85.nanobot.exception.BotBadBaseException;
+import it.paspiz85.nanobot.parsing.Parsers;
+import it.paspiz85.nanobot.util.Robot;
 
 import java.util.logging.Logger;
-
-import aok.coc.util.ImageParser;
-import aok.coc.util.RobotUtils;
 
 public abstract class Attack {
 
@@ -54,7 +53,7 @@ public abstract class Attack {
 	public void attack(int[] loot, int[] attackGroup)
 			throws InterruptedException {
 		logger.info("Attacking...");
-		RobotUtils.zoomUp();
+		Robot.instance().zoomUp();
 
 		doDropUnits(attackGroup);
 
@@ -76,7 +75,7 @@ public abstract class Attack {
 
 			int[] currLoot;
 			try {
-				currLoot = ImageParser.parseLoot();
+				currLoot = Parsers.getAttackScreen().parseLoot();
 			} catch (BotBadBaseException e) {
 				Thread.sleep(2000);
 				// in case of 100% win/no troops left, attack screen will end

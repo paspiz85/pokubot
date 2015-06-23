@@ -1,7 +1,7 @@
 package it.paspiz85.nanobot.attack;
 
-import aok.coc.util.RobotUtils;
-import aok.coc.util.coords.Clickable;
+import it.paspiz85.nanobot.parsing.Clickable;
+import it.paspiz85.nanobot.util.Robot;
 
 public class Attack4Side extends Attack {
 	private static final Attack4Side instance = new Attack4Side();
@@ -21,8 +21,8 @@ public class Attack4Side extends Attack {
 			int unitCount = attackGroup[unitIdx];
 
 			// select unit
-			RobotUtils.leftClick(Clickable.getButtonAttackUnit(unitIdx + 1),
-					100);
+			Robot.instance().leftClick(
+					Clickable.getButtonAttackUnit(unitIdx + 1), 100);
 
 			// if count is less than 4, only first side will be used.
 			int[][] topToRightPoints = pointsBetweenFromToInclusive(TOP_X,
@@ -38,7 +38,7 @@ public class Attack4Side extends Attack {
 			for (int[][] points : new int[][][] { topToRightPoints,
 					rightToBottomPoints, bottomToLeftPoints, leftToTopPoints }) {
 				for (int[] point : points) {
-					RobotUtils.leftClick(point[0], point[1],
+					Robot.instance().leftClick(point[0], point[1],
 							PAUSE_BETWEEN_UNIT_DROP);
 				}
 			}

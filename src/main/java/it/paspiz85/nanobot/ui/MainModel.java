@@ -5,7 +5,8 @@
  */
 package it.paspiz85.nanobot.ui;
 
-import it.paspiz85.nanobot.Constants;
+import it.paspiz85.nanobot.logic.BotLauncher;
+import it.paspiz85.nanobot.util.Constants;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,8 +19,6 @@ import org.apache.maven.artifact.versioning.DefaultArtifactVersion;
 import org.kohsuke.github.GHRelease;
 import org.kohsuke.github.GHRepository;
 import org.kohsuke.github.GitHub;
-
-import aok.coc.launcher.BotLauncher;
 
 /**
  *
@@ -62,7 +61,7 @@ public class MainModel implements Constants {
 			DefaultArtifactVersion currentVersion = new DefaultArtifactVersion(
 					current);
 			GitHub github = GitHub.connectAnonymously();
-			GHRepository repository = github.getRepository(REPOSITORY);
+			GHRepository repository = github.getRepository(REPOSITORY_NAME);
 			for (GHRelease r : repository.listReleases()) {
 				String release = r.getName().substring(1);
 				DefaultArtifactVersion releaseVersion = new DefaultArtifactVersion(

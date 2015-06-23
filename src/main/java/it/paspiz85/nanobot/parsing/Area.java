@@ -1,4 +1,4 @@
-package aok.coc.util.coords;
+package it.paspiz85.nanobot.parsing;
 
 public enum Area {
 

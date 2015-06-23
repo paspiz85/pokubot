@@ -2,12 +2,11 @@ package it.paspiz85.nanobot.ui;
 
 import it.paspiz85.nanobot.exception.BotConfigurationException;
 import it.paspiz85.nanobot.exception.BotException;
+import it.paspiz85.nanobot.logic.BotLauncher;
 import it.paspiz85.nanobot.util.Logging;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import aok.coc.launcher.BotLauncher;
 
 public class Shell {
 

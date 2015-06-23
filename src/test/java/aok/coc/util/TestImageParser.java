@@ -2,6 +2,7 @@ package aok.coc.util;
 
 import it.paspiz85.nanobot.exception.BotBadBaseException;
 import it.paspiz85.nanobot.exception.BotException;
+import it.paspiz85.nanobot.parsing.Parsers;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -77,8 +78,8 @@ public class TestImageParser {
 		int fail = 0;
 		for (int i = 0; i < imageNames.length; i++) {
 			String s = imageNames[i];
-			BufferedImage image = ImageIO.read(TestImageParser.class.getResourceAsStream(imageLocation + s));
-			int gold = ImageParser.parseGold(image);
+			BufferedImage image = ImageIO.read(getClass().getResourceAsStream(imageLocation + s));
+			int gold = Parsers.getAttackScreen().parseGold(image);
 			
 			try {
 				Assert.assertEquals(expectedGold[i], gold);
@@ -97,8 +98,8 @@ public class TestImageParser {
 		int fail = 0;
 		for (int i = 0; i < imageNames.length; i++) {
 			String s = imageNames[i];
-			BufferedImage image = ImageIO.read(TestImageParser.class.getResourceAsStream(imageLocation + s));
-			int elixir = ImageParser.parseElixir(image);
+			BufferedImage image = ImageIO.read(getClass().getResourceAsStream(imageLocation + s));
+			int elixir = Parsers.getAttackScreen().parseElixir(image);
 			
 			try {
 				Assert.assertEquals(expectedElixir[i], elixir);
@@ -117,8 +118,8 @@ public class TestImageParser {
 		int fail = 0;
 		for (int i = 0; i < imageNames.length; i++) {
 			String s = imageNames[i];
-			BufferedImage image = ImageIO.read(TestImageParser.class.getResourceAsStream(imageLocation + s));
-			int de = ImageParser.parseDarkElixir(image);
+			BufferedImage image = ImageIO.read(getClass().getResourceAsStream(imageLocation + s));
+			int de = Parsers.getAttackScreen().parseDarkElixir(image);
 			
 			try {
 				Assert.assertEquals(expectedDarkElixir[i], de);
@@ -137,8 +138,8 @@ public class TestImageParser {
 		int fail = 0;
 		for (int i = 0; i < imageNames.length; i++) {
 			String s = imageNames[i];
-			BufferedImage image = ImageIO.read(TestImageParser.class.getResourceAsStream(imageLocation + s));
-			int trophy = ImageParser.parseTrophy(image);
+			BufferedImage image = ImageIO.read(getClass().getResourceAsStream(imageLocation + s));
+			int trophy = Parsers.getAttackScreen().parseTrophy(image);
 			
 			try {
 				Assert.assertEquals(expectedTrophy[i], trophy);
@@ -156,8 +157,8 @@ public class TestImageParser {
 		int fail = 0;
 		for (int i = 0; i < troopImageNames.length; i++) {
 			String s = troopImageNames[i];
-			BufferedImage image = ImageIO.read(TestImageParser.class.getResourceAsStream(imageLocation + s));
-			int[] troops = ImageParser.parseTroopCount(image);
+			BufferedImage image = ImageIO.read(getClass().getResourceAsStream(imageLocation + s));
+			int[] troops = Parsers.getAttackScreen().parseTroopCount(image);
 			
 			try {
 				Assert.assertArrayEquals(expectedTroops[i], troops);
@@ -171,13 +172,13 @@ public class TestImageParser {
 	
 	@Test
 	public void testBKParser() throws IOException {
-		BufferedImage image = ImageIO.read(TestImageParser.class.getResourceAsStream(imageLocation + "troop_1420928729522.png"));
-		int parseBarbKingSlot = ImageParser.parseBarbKingSlot(image);
+		BufferedImage image = ImageIO.read(getClass().getResourceAsStream(imageLocation + "troop_1420928729522.png"));
+		int parseBarbKingSlot = Parsers.getAttackScreen().parseBarbKingSlot(image);
 		
 		Assert.assertEquals(3, parseBarbKingSlot);
 
-		BufferedImage image2 = ImageIO.read(TestImageParser.class.getResourceAsStream(imageLocation + "troop_1420820765409.png"));
-		int parseBarbKingSlot2 = ImageParser.parseBarbKingSlot(image2);
+		BufferedImage image2 = ImageIO.read(getClass().getResourceAsStream(imageLocation + "troop_1420820765409.png"));
+		int parseBarbKingSlot2 = Parsers.getAttackScreen().parseBarbKingSlot(image2);
 		
 		Assert.assertEquals(2, parseBarbKingSlot2);
 	}
@@ -185,7 +186,7 @@ public class TestImageParser {
 	@Test
 	public void testBaseParser() throws IOException, BotException {
 		// processing: attack_1421204450459.png 1-9
-		File baseDir = new File(TestImageParser.class.getResource("/full_base_images").getFile());
+		File baseDir = new File(getClass().getResource("/full_base_images").getFile());
 
 		int fail = 0;
 		for (File f : baseDir.listFiles()) {
@@ -204,7 +205,7 @@ public class TestImageParser {
 			String bool = name.substring(secondIndexOf_ + 1, name.lastIndexOf('_'));
 			boolean expected = bool.equals("yes");
 			BufferedImage src = ImageIO.read(f);
-			boolean isAttackable = ImageParser.isCollectorFullBase(src);
+			boolean isAttackable = Parsers.getAttackScreen().isCollectorFullBase(src);
 			try {
 				Assert.assertEquals(name, expected, isAttackable);
 			} catch (AssertionError e) {
@@ -218,8 +219,8 @@ public class TestImageParser {
 	@Test
 	public void testIssue11() throws IOException, BotBadBaseException {
 		try {
-			BufferedImage image = ImageIO.read(TestImageParser.class.getResourceAsStream(imageLocation + "issue11_3.png"));
-			int[] loot = ImageParser.parseLoot(image);
+			BufferedImage image = ImageIO.read(getClass().getResourceAsStream(imageLocation + "issue11_3.png"));
+			int[] loot = Parsers.getAttackScreen().parseLoot(image);
 			System.out.println(Arrays.toString(loot));
 		} catch (Exception e) {
 			e.printStackTrace();

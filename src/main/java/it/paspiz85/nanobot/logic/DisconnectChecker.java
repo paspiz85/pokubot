@@ -1,14 +1,14 @@
-package aok.coc.launcher;
+package it.paspiz85.nanobot.logic;
 
+import it.paspiz85.nanobot.parsing.Clickable;
 import it.paspiz85.nanobot.state.Context;
 import it.paspiz85.nanobot.state.StateIdle;
+import it.paspiz85.nanobot.util.Robot;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import aok.coc.util.RobotUtils;
-import aok.coc.util.coords.Clickable;
-
+@Deprecated
 public class DisconnectChecker implements Runnable {
 
 	private static final Logger logger = Logger
@@ -34,7 +34,8 @@ public class DisconnectChecker implements Runnable {
 							"Disconnect detector is interrupted.");
 				}
 
-				if (RobotUtils.isClickableActive(Clickable.UNIT_BLUESTACKS_DC)) {
+				if (Robot.instance().isClickableActive(
+						Clickable.UNIT_BLUESTACKS_DC)) {
 					logger.info("Detected disconnect.");
 
 					// There are 2 cases:
@@ -68,7 +69,7 @@ public class DisconnectChecker implements Runnable {
 					// loaded for a second, before
 					// loading actually starts and next state would be executed.
 					StateIdle.instance().setReloading(true);
-					RobotUtils.leftClick(Clickable.UNIT_RECONNECT, 5000);
+					Robot.instance().leftClick(Clickable.UNIT_RECONNECT, 5000);
 					Thread.sleep(2000);
 					StateIdle.instance().setReloading(false);
 				}

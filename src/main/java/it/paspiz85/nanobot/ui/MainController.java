@@ -1,6 +1,8 @@
 package it.paspiz85.nanobot.ui;
 
+import it.paspiz85.nanobot.parsing.Clickable;
 import it.paspiz85.nanobot.util.Config;
+import it.paspiz85.nanobot.util.Constants;
 
 import java.util.logging.Logger;
 
@@ -19,75 +21,78 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import aok.coc.util.coords.Clickable;
 
-public class MainController implements ApplicationAwareController {
+public class MainController implements ApplicationAwareController, Constants {
 
-	private Application application;
+	Application application;
+
 	@FXML
-	private ComboBox<String> autoAttackComboBox;
+	ComboBox<String> autoAttackComboBox;
+
 	@FXML
-	private Button cancelButton;
+	Button cancelButton;
+
 	@FXML
-	private GridPane configGridPane;
+	GridPane configGridPane;
+
 	@FXML
-	private AnchorPane controlPane;
+	AnchorPane controlPane;
+
 	@FXML
-	private TextField deField;
+	TextField deField;
 	@FXML
-	private CheckBox detectEmptyCollectorsCheckBox;
+	CheckBox detectEmptyCollectorsCheckBox;
 	@FXML
-	private Label donateLabel;
+	Label donateLabel;
 	@FXML
-	private Hyperlink donateLink;
+	Hyperlink donateLink;
 	@FXML
-	private TextField elixirField;
+	TextField elixirField;
 	@FXML
-	private Hyperlink githubLink;
+	Hyperlink githubLink;
 	@FXML
-	private TextField goldField;
+	TextField goldField;
 	@FXML
-	private ImageView heartImage;
+	ImageView heartImage;
 	@FXML
-	private CheckBox isMatchAllConditionsCheckBox;
+	CheckBox isMatchAllConditionsCheckBox;
 
 	protected final Logger logger = Logger.getLogger(getClass().getName());
 
 	@FXML
-	private TextField maxThField;
-	private final MainModel model = new MainModel();
+	TextField maxThField;
+	final MainModel model = new MainModel();
 	@FXML
-	private CheckBox playSoundCheckBox;
+	CheckBox playSoundCheckBox;
 	@FXML
-	private ComboBox<String> rax1ComboBox;
+	ComboBox<String> rax1ComboBox;
 	@FXML
-	private ComboBox<String> rax2ComboBox;
+	ComboBox<String> rax2ComboBox;
 	@FXML
-	private ComboBox<String> rax3ComboBox;
+	ComboBox<String> rax3ComboBox;
 	@FXML
-	private ComboBox<String> rax4ComboBox;
+	ComboBox<String> rax4ComboBox;
 	@FXML
-	private Button setupButton;
+	Button setupButton;
 	@FXML
-	private AnchorPane setupPane;
+	AnchorPane setupPane;
 
 	@FXML
-	private Button startButton;
+	Button startButton;
 
 	@FXML
-	private Button stopButton;
+	Button stopButton;
 	@FXML
-	private TextArea textArea;
+	TextArea textArea;
 
 	@FXML
-	private Label updateLabel;
+	Label updateLabel;
 	@FXML
-	private Label versionLabel;
+	Label versionLabel;
 
 	@FXML
 	public void handleCancelButtonAction() {
-		setupPane.setVisible(false);
-		controlPane.setVisible(true);
+		showSettings(false);
 	}
 
 	@FXML
@@ -128,12 +133,12 @@ public class MainController implements ApplicationAwareController {
 				.fromDescription(rax4ComboBox.getValue());
 
 		Config.instance().save();
+		showSettings(false);
 	}
 
 	@FXML
 	public void handleSetupButtonAction() {
-		controlPane.setVisible(false);
-		setupPane.setVisible(true);
+		showSettings(true);
 	}
 
 	@FXML
@@ -154,6 +159,8 @@ public class MainController implements ApplicationAwareController {
 		initializeLinks();
 		initializeLabels();
 		initializeTextFields();
+		githubLink.setText(REPOSITORY_URL);
+		githubLink.setVisible(true);
 
 		initializeComboBox();
 		updateConfigGridPane();
@@ -162,7 +169,7 @@ public class MainController implements ApplicationAwareController {
 		}
 	}
 
-	private void initializeComboBox() {
+	void initializeComboBox() {
 		autoAttackComboBox.getItems().addAll(
 				Config.instance().getAttackStrategies());
 		autoAttackComboBox.setValue(autoAttackComboBox.getItems().get(0));
@@ -180,16 +187,14 @@ public class MainController implements ApplicationAwareController {
 		rax4ComboBox.getItems().addAll(troops);
 	}
 
-	private void initializeLabels() {
+	void initializeLabels() {
 		String version = getClass().getPackage().getImplementationVersion();
 		if (version != null) {
-			versionLabel.setText("PokuBot v" + version);
-		} else {
-			versionLabel.setText("");
+			versionLabel.setText(NAME + " v" + version);
 		}
 	}
 
-	private void initializeLinks() {
+	void initializeLinks() {
 		githubLink.setOnAction(t -> {
 			application.getHostServices().showDocument(githubLink.getText());
 			githubLink.setVisited(false);
@@ -201,12 +206,12 @@ public class MainController implements ApplicationAwareController {
 
 		donateLink.setOnAction(event -> {
 			application.getHostServices().showDocument(
-					"https://github.com/norecha/pokubot#donate");
+					REPOSITORY_URL + "#donate");
 			donateLink.setVisited(false);
 		});
 	}
 
-	private void initializeTextFields() {
+	void initializeTextFields() {
 		ChangeListener<String> intFieldListener = (observable, oldValue,
 				newValue) -> {
 					try {
@@ -229,7 +234,12 @@ public class MainController implements ApplicationAwareController {
 		this.application = application;
 	}
 
-	private void updateConfigGridPane() {
+	private void showSettings(boolean value) {
+		setupPane.setVisible(value);
+		controlPane.setVisible(!value);
+	}
+
+	void updateConfigGridPane() {
 		goldField.setText(Config.instance().getGoldThreshold() + "");
 		elixirField.setText(Config.instance().getElixirThreshold() + "");
 		deField.setText(Config.instance().getDarkElixirThreshold() + "");

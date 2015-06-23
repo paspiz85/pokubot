@@ -1,7 +1,7 @@
 package it.paspiz85.nanobot.attack;
 
-import aok.coc.util.RobotUtils;
-import aok.coc.util.coords.Clickable;
+import it.paspiz85.nanobot.parsing.Clickable;
+import it.paspiz85.nanobot.util.Robot;
 
 public class Attack4SideParallelHalf2Wave extends Attack {
 
@@ -24,7 +24,7 @@ public class Attack4SideParallelHalf2Wave extends Attack {
 				unitCount = unitCount / 2 + wave * (unitCount % 2);
 
 				// select unit
-				RobotUtils.leftClick(
+				Robot.instance().leftClick(
 						Clickable.getButtonAttackUnit(unitIdx + 1), 100);
 
 				int[][] topToRightPoints = pointsBetweenFromToInclusive(TOP_X,
@@ -36,13 +36,13 @@ public class Attack4SideParallelHalf2Wave extends Attack {
 				// top to mid from both sides in parallel
 				for (int i = 0; i < topToRightPoints.length; i++) {
 					int[] topRightPoint = topToRightPoints[i];
-					RobotUtils.leftClick(topRightPoint[0], topRightPoint[1],
-							PAUSE_BETWEEN_UNIT_DROP);
+					Robot.instance().leftClick(topRightPoint[0],
+							topRightPoint[1], PAUSE_BETWEEN_UNIT_DROP);
 
 					if (i < topToLeftPoints.length) {
 						int[] topLeftPoint = topToLeftPoints[i];
-						RobotUtils.leftClick(topLeftPoint[0], topLeftPoint[1],
-								PAUSE_BETWEEN_UNIT_DROP);
+						Robot.instance().leftClick(topLeftPoint[0],
+								topLeftPoint[1], PAUSE_BETWEEN_UNIT_DROP);
 					}
 				}
 			}
@@ -54,7 +54,7 @@ public class Attack4SideParallelHalf2Wave extends Attack {
 				unitCount = unitCount / 2 + wave * (unitCount % 2);
 
 				// select unit
-				RobotUtils.leftClick(
+				Robot.instance().leftClick(
 						Clickable.getButtonAttackUnit(unitIdx + 1), 100);
 
 				int[][] rightToBottomPoints = pointsBetweenFromToInclusive(
@@ -66,11 +66,11 @@ public class Attack4SideParallelHalf2Wave extends Attack {
 				// mid to bottom from both sides in parallel
 				for (int i = 0; i < rightToBottomPoints.length; i++) {
 					int[] rightToBottomPoint = rightToBottomPoints[i];
-					RobotUtils.leftClick(rightToBottomPoint[0],
+					Robot.instance().leftClick(rightToBottomPoint[0],
 							rightToBottomPoint[1], PAUSE_BETWEEN_UNIT_DROP);
 
 					int[] leftToBottomPoint = leftToBottomPoints[i];
-					RobotUtils.leftClick(leftToBottomPoint[0],
+					Robot.instance().leftClick(leftToBottomPoint[0],
 							leftToBottomPoint[1], PAUSE_BETWEEN_UNIT_DROP);
 				}
 			}

@@ -1,7 +1,9 @@
-package aok.coc.launcher;
+package it.paspiz85.nanobot.logic;
 
 import it.paspiz85.nanobot.exception.BotConfigurationException;
+import it.paspiz85.nanobot.parsing.Clickable;
 import it.paspiz85.nanobot.util.Config;
+import it.paspiz85.nanobot.util.Robot;
 import it.paspiz85.nanobot.win32.User32;
 
 import java.util.Arrays;
@@ -13,9 +15,6 @@ import org.jnativehook.NativeHookException;
 import org.jnativehook.mouse.NativeMouseEvent;
 import org.jnativehook.mouse.NativeMouseListener;
 
-import aok.coc.util.RobotUtils;
-import aok.coc.util.coords.Clickable;
-
 import com.sun.jna.platform.win32.Advapi32Util;
 import com.sun.jna.platform.win32.WinDef.HWND;
 import com.sun.jna.platform.win32.WinDef.POINT;
@@ -23,9 +22,9 @@ import com.sun.jna.platform.win32.WinNT;
 import com.sun.jna.platform.win32.WinReg;
 import com.sun.jna.platform.win32.WinReg.HKEYByReference;
 
+@Deprecated
 public class Setup {
 
-	public static final String APP_NAME = "PokuBot";
 	public static final int BS_RES_X = 860;
 	public static final int BS_RES_Y = 720;
 	private static final String BS_WINDOW_NAME = "BlueStacks App Player";
@@ -47,8 +46,8 @@ public class Setup {
 	}
 
 	public static void setup() throws BotConfigurationException,
-			InterruptedException {
-		if (!RobotUtils.SYSTEM_OS.toLowerCase(Locale.ROOT).contains("windows")) {
+	InterruptedException {
+		if (!Robot.SYSTEM_OS.toLowerCase(Locale.ROOT).contains("windows")) {
 			throw new BotConfigurationException(
 					"Bot is only available for Windows OS.");
 		}
@@ -68,7 +67,7 @@ public class Setup {
 
 		// setup RobotUtils
 		logger.info("Setting up RobotUtils...");
-		RobotUtils.setupWin32(bsHwnd);
+		Robot.instance().setupWin32(bsHwnd);
 
 		// setup barracks
 		logger.info("Setting up Barracks...");
@@ -76,11 +75,12 @@ public class Setup {
 	}
 
 	private static void setupBarracks() throws BotConfigurationException,
-			InterruptedException {
+	InterruptedException {
 
 		if (!Config.instance().isBarracksConfigDone()) {
-			RobotUtils.zoomUp();
-			boolean confirmed = RobotUtils
+			Robot.instance().zoomUp();
+			boolean confirmed = Robot
+					.instance()
 					.confirmationBox(
 							"You must configure the location "
 									+ "of first Barracks. First Barracks is the leftmost one when you \n"
@@ -219,7 +219,8 @@ public class Setup {
 							+ "Click YES to change it automatically, NO to do it later.\n",
 							BS_WINDOW_NAME, BS_RES_X, BS_RES_Y);
 
-			boolean ret = RobotUtils.confirmationBox(msg, "Change resolution");
+			boolean ret = Robot.instance().confirmationBox(msg,
+					"Change resolution");
 
 			if (!ret) {
 				throw new BotConfigurationException(

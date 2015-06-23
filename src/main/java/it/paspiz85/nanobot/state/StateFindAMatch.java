@@ -1,7 +1,7 @@
 package it.paspiz85.nanobot.state;
 
-import aok.coc.util.RobotUtils;
-import aok.coc.util.coords.Clickable;
+import it.paspiz85.nanobot.parsing.Clickable;
+import it.paspiz85.nanobot.util.Robot;
 
 public class StateFindAMatch extends State {
 	private static final StateFindAMatch instance = new StateFindAMatch();
@@ -19,10 +19,10 @@ public class StateFindAMatch extends State {
 		if (Thread.interrupted()) {
 			throw new InterruptedException("StateFindAMatch is interrupted.");
 		}
-		if (RobotUtils.isClickableActive(Clickable.BUTTON_FIND_A_MATCH)) {
-			RobotUtils.leftClick(Clickable.BUTTON_FIND_A_MATCH, 300);
-			RobotUtils.leftClick(Clickable.BUTTON_SHIELD_DISABLE, 100);
-			RobotUtils.sleepTillClickableIsActive(Clickable.BUTTON_NEXT);
+		if (Robot.instance().isClickableActive(Clickable.BUTTON_FIND_A_MATCH)) {
+			Robot.instance().leftClick(Clickable.BUTTON_FIND_A_MATCH, 300);
+			Robot.instance().leftClick(Clickable.BUTTON_SHIELD_DISABLE, 100);
+			Robot.instance().sleepTillClickableIsActive(Clickable.BUTTON_NEXT);
 
 			context.setState(StateAttack.instance());
 		} else {

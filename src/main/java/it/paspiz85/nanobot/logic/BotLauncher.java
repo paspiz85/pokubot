@@ -1,4 +1,4 @@
-package aok.coc.launcher;
+package it.paspiz85.nanobot.logic;
 
 import it.paspiz85.nanobot.exception.BotConfigurationException;
 import it.paspiz85.nanobot.exception.BotException;
@@ -8,6 +8,7 @@ import it.paspiz85.nanobot.state.StateIdle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+@Deprecated
 public class BotLauncher {
 
 	protected final Logger logger = Logger.getLogger(getClass().getName());
@@ -23,7 +24,7 @@ public class BotLauncher {
 	}
 
 	private void loop(Context context) throws InterruptedException,
-			BotException {
+	BotException {
 		Exception botException; // throw in case of timeout
 		try {
 			while (true) {
