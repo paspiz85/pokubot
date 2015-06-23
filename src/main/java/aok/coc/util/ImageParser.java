@@ -198,7 +198,6 @@ public class ImageParser {
 		return isCollectorFullBase(RobotUtils.screenShot(Area.ENEMY_BASE));
 	}
 
-	@SuppressWarnings("resource")
 	static boolean isCollectorFullBase(BufferedImage image) throws BotException {
 
 		FileSystem fileSystem = null;

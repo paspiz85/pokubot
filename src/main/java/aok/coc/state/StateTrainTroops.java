@@ -1,8 +1,9 @@
 package aok.coc.state;
 
+import it.paspiz85.nanobot.util.Config;
+
 import java.util.logging.Logger;
 
-import aok.coc.util.ConfigUtils;
 import aok.coc.util.RobotUtils;
 import aok.coc.util.coords.Clickable;
 
@@ -24,7 +25,7 @@ public class StateTrainTroops implements State {
 		logger.info("StateTrainTroops");
 		// first barracks must be opened at this point
 
-		Clickable[] raxInfo = ConfigUtils.instance().getRaxInfo();
+		Clickable[] raxInfo = Config.instance().getRaxInfo();
 		for (int currRax = 0; currRax < raxInfo.length; currRax++) {
 			Clickable troop = raxInfo[currRax];
 

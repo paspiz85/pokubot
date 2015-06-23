@@ -1,6 +1,7 @@
 package aok.coc.state;
 
 import it.paspiz85.nanobot.attack.ManualAttack;
+import it.paspiz85.nanobot.util.Config;
 
 import java.io.IOException;
 import java.net.URL;
@@ -14,7 +15,6 @@ import javax.sound.sampled.Clip;
 
 import aok.coc.exception.BotBadBaseException;
 import aok.coc.exception.BotException;
-import aok.coc.util.ConfigUtils;
 import aok.coc.util.ImageParser;
 import aok.coc.util.RobotUtils;
 import aok.coc.util.coords.Area;
@@ -62,17 +62,17 @@ public class StateAttack implements State {
 			int elixir = loot[1];
 			int de = loot[2];
 
-			if (ConfigUtils.instance().doConditionsMatch(gold, elixir, de)
-					&& (!ConfigUtils.instance().isDetectEmptyCollectors() || ImageParser
+			if (Config.instance().doConditionsMatch(gold, elixir, de)
+					&& (!Config.instance().isDetectEmptyCollectors() || ImageParser
 							.isCollectorFullBase())) {
 
 				// // debug
 				// if (true) {
 				// attack or let user manually attack
-				if (ConfigUtils.instance().getAttackStrategy() != ManualAttack
+				if (Config.instance().getAttackStrategy() != ManualAttack
 						.instance()) {
 					playAttackReady();
-					ConfigUtils.instance().getAttackStrategy()
+					Config.instance().getAttackStrategy()
 					.attack(loot, attackGroup);
 					RobotUtils.leftClick(Clickable.BUTTON_END_BATTLE, 1200);
 					RobotUtils.leftClick(
@@ -119,7 +119,7 @@ public class StateAttack implements State {
 	}
 
 	void playAttackReady() {
-		if (!ConfigUtils.instance().isPlaySound()) {
+		if (!Config.instance().isPlaySound()) {
 			return;
 		}
 		String[] clips = new String[] { "/fight.wav", "/finishim.wav",

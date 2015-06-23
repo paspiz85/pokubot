@@ -1,4 +1,4 @@
-package aok.coc.util;
+package it.paspiz85.nanobot.util;
 
 import it.paspiz85.nanobot.attack.AbstractAttack;
 import it.paspiz85.nanobot.attack.Attack2Side;
@@ -21,14 +21,14 @@ import java.util.logging.Logger;
 import aok.coc.launcher.Setup;
 import aok.coc.util.coords.Clickable;
 
-public class ConfigUtils {
+public class Config {
 
 	// ----------------------------------------------------------
 	// Singleton reference
 	// Thread safe
-	private static final ConfigUtils instance = new ConfigUtils();
+	private static final Config instance = new Config();
 
-	private static final Logger logger = Logger.getLogger(ConfigUtils.class
+	private static final Logger logger = Logger.getLogger(Config.class
 			.getName());
 
 	private static final String PROPERTY_ATTACK_STRAT = "attack_strat";
@@ -170,9 +170,9 @@ public class ConfigUtils {
 	/**
 	 * Singleton accessor method.
 	 */
-	public static ConfigUtils instance() {
+	public static Config instance() {
 		if (!instance.isInitialized) {
-			synchronized (ConfigUtils.class) {
+			synchronized (Config.class) {
 				if (!instance.isInitialized) {
 					throw new IllegalStateException(
 							"ConfigUtils is not initialized.");
@@ -225,7 +225,7 @@ public class ConfigUtils {
 			Clickable.BUTTON_RAX_ARCHER, Clickable.BUTTON_RAX_ARCHER, };
 
 	// Private constructor - must be singleton
-	private ConfigUtils() {
+	private Config() {
 		// NOTE: Must remain empty.
 	}
 

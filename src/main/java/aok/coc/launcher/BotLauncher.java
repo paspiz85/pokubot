@@ -17,7 +17,6 @@ public class BotLauncher {
 
 	public static void main(String[] args) {
 		Logging.initialize();
-
 		try {
 			// run the bot
 			BotLauncher launcher = new BotLauncher();

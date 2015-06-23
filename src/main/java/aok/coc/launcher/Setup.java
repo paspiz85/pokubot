@@ -1,5 +1,6 @@
 package aok.coc.launcher;
 
+import it.paspiz85.nanobot.util.Config;
 import it.paspiz85.nanobot.win32.User32;
 
 import java.util.Arrays;
@@ -12,7 +13,6 @@ import org.jnativehook.mouse.NativeMouseEvent;
 import org.jnativehook.mouse.NativeMouseListener;
 
 import aok.coc.exception.BotConfigurationException;
-import aok.coc.util.ConfigUtils;
 import aok.coc.util.RobotUtils;
 import aok.coc.util.coords.Clickable;
 
@@ -43,7 +43,7 @@ public class Setup {
 		// setup configUtils
 		logger.info("Setting up ConfigUtils...");
 		logger.info("Make sure in-game language is English.");
-		ConfigUtils.initialize();
+		Config.initialize();
 	}
 
 	public static void setup() throws BotConfigurationException,
@@ -78,7 +78,7 @@ public class Setup {
 	private static void setupBarracks() throws BotConfigurationException,
 	InterruptedException {
 
-		if (!ConfigUtils.instance().isBarracksConfigDone()) {
+		if (!Config.instance().isBarracksConfigDone()) {
 			RobotUtils.zoomUp();
 			boolean confirmed = RobotUtils
 					.confirmationBox(
@@ -142,7 +142,7 @@ public class Setup {
 						Clickable.UNIT_FIRST_RAX.getX(),
 						Clickable.UNIT_FIRST_RAX.getY()));
 
-				ConfigUtils.instance().setBarracksConfigDone(true);
+				Config.instance().setBarracksConfigDone(true);
 
 				GlobalScreen.unregisterNativeHook();
 			} catch (NativeHookException e) {
@@ -247,8 +247,8 @@ public class Setup {
 	}
 
 	public static void tearDown() {
-		if (ConfigUtils.isInitialized()) {
-			ConfigUtils.close();
+		if (Config.isInitialized()) {
+			Config.close();
 		}
 	}
 
